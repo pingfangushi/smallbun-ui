@@ -53,7 +53,7 @@ interface TableListProps extends FormComponentProps {
       | 'users/submit'
       | 'users/details'
       | 'users/updateStatus'
-      | 'users/updatePassWord'
+      | 'users/updatePassword'
       >
     >;
   role: RoleStateType;
@@ -431,7 +431,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
             this.setState({ passWordLoading: true });
             const { dispatch } = this.props;
             dispatch({
-              type: 'users/updatePassWord',
+              type: 'users/updatePassword',
               payload: { id: value.id, password: value.password },
               callback: () => {
                 this.setState({ passWordVisible: false });

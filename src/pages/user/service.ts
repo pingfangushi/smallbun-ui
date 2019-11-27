@@ -53,8 +53,8 @@ export async function updateById(params: {}) {
  * 修改
  * @param params
  */
-export async function updatePassWord(params: {}) {
-  return request('/api/user/update/password', {
+export async function updatePassword(params: {}) {
+  return request('/api/user/password', {
     method: 'PUT',
     data: params,
   });

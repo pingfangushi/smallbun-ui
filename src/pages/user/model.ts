@@ -3,7 +3,7 @@ import { EffectsCommandMap } from 'dva';
 import { message, notification } from 'antd';
 import { FormDetails, FormItem, TableListItem } from './data.d';
 import { Omit, Open, Result, Status } from '@/pages/typings';
-import { add, unique, getById, getPage, removeByIds, updateById, updatePassWord, updateStatusById } from './service';
+import { add, unique, getById, getPage, removeByIds, updateById, updatePassword, updateStatusById } from './service';
 import { TableListData } from '@/components/StandardTable/data';
 
 export type Effect = (
@@ -36,7 +36,7 @@ export interface ModelType {
     unique: Effect;
     details: Effect;
     updateStatus: Effect;
-    updatePassWord: Effect;
+    updatePassword: Effect;
   };
   reducers: {
     saveList: Reducer<Omit<StateType, 'form' | 'details'>>;
@@ -146,8 +146,8 @@ const UserModel: ModelType = {
         });
       }
     },
-    *updatePassWord({ payload }, { call }) {
-      const response: Result<object> = yield call(updatePassWord, payload);
+    *updatePassword({ payload }, { call }) {
+      const response: Result<object> = yield call(updatePassword, payload);
       if (response.status === Status.SUCCESS) {
         message.success(response.message);
       }
