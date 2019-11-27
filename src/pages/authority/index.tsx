@@ -6,6 +6,7 @@ import { Button, Card, Col, Divider, Form, Icon, Input, Popconfirm, Row } from '
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { ColumnProps } from 'antd/lib/table';
+import moment from 'moment';
 import { ModelType, StateType } from './model';
 import { TableListItem } from './data.d';
 import { Open } from '@/pages/typings';
@@ -90,6 +91,12 @@ class Index extends React.Component<TableListProps, TableListState> {
       title: '备注',
       dataIndex: 'remarks',
       align: 'center',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      align: 'center',
+      render: (val: string) => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',

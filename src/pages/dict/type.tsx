@@ -21,6 +21,7 @@ import {
 import { formatMessage } from 'umi-plugin-react/locale';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { ColumnProps } from 'antd/lib/table';
+import moment from 'moment';
 import StandardTable from '@/components/StandardTable';
 import { StateType } from './model';
 import { TypeTableListItem } from './data.d';
@@ -74,18 +75,18 @@ class DictType extends React.Component<DictTableListProps, DictTableListState> {
    */
   columns: ColumnProps<TypeTableListItem>[] = [
     {
-      title: '类型名称',
+      title: '名称',
       dataIndex: 'name',
       align: 'center',
     },
     {
-      title: '类型编码',
+      title: '编码',
       dataIndex: 'code',
       align: 'center',
       sorter: true,
     },
     {
-      title: '字典状态',
+      title: '状态',
       dataIndex: 'status',
       align: 'center',
       sorter: true,
@@ -106,6 +107,12 @@ class DictType extends React.Component<DictTableListProps, DictTableListState> {
           checked={text === TypeStatus.ENABLE}
         />
       ),
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      align: 'center',
+      render: (val: string) => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',
