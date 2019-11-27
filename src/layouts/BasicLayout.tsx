@@ -66,11 +66,11 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright="2019 SmallBun"
+    copyright="2019 SmallBun 企业级开发脚手架"
     links={[
       {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
+        key: '官网',
+        title: '官网',
         href: 'https://pro.ant.design',
         blankTarget: true,
       },
@@ -81,8 +81,8 @@ const defaultFooterDom = (
         blankTarget: true,
       },
       {
-        key: 'Ant Design',
-        title: 'Ant Design',
+        key: '文档',
+        title: '文档',
         href: 'https://ant.design',
         blankTarget: true,
       },
