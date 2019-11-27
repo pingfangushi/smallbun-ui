@@ -3,7 +3,16 @@ import { EffectsCommandMap } from 'dva';
 import { message, notification } from 'antd';
 import { FormDetails, FormItem, TableListItem } from './data.d';
 import { Omit, Open, Result, Status } from '@/pages/typings';
-import { add, unique, getById, getPage, removeByIds, updateById, updatePassword, updateStatusById } from './service';
+import {
+  add,
+  unique,
+  getById,
+  getPage,
+  removeByIds,
+  updateById,
+  updatePassword,
+  updateStatusById,
+} from './service';
 import { TableListData } from '@/components/StandardTable/data';
 
 export type Effect = (
@@ -45,7 +54,6 @@ export interface ModelType {
   };
 }
 
-// noinspection DuplicatedCode
 const UserModel: ModelType = {
   namespace: 'users',
   state: {
