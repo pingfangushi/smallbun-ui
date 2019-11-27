@@ -1,15 +1,19 @@
-import { Button, Form, Input, Modal, Select, TreeSelect, Alert } from 'antd';
+import { Button, Col, Form, Input, Modal, Radio, Row, Select, TreeSelect, Alert } from 'antd';
 import * as React from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { Action, Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Open } from '@/pages/typings';
+import { ValidateFieldsOptions } from 'antd/lib/form/Form';
+import Divider from '@/components/Divider';
 import { StateType } from './model';
 import { StateType as GroupStateType } from '../group/model';
+import { UserStatus } from './typings';
 import { StateType as RoleStateType } from '@/pages/role/model';
-import { UserStatus } from '@/pages/user/typings';
+import { Open } from '@/pages/typings';
 
 const { Option } = Select;
+const { TextArea } = Input;
+const RadioGroup = Radio.Group;
 
 export interface UserFormProps extends FormComponentProps {
   loading: boolean;
@@ -20,6 +24,19 @@ export interface UserFormProps extends FormComponentProps {
   role: RoleStateType;
   group: GroupStateType;
 }
+
+// formItem布局
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 4 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 24 },
+    md: { span: 18 },
+  },
+};
 
 /**
  * UserForm
@@ -45,16 +62,23 @@ export interface UserFormProps extends FormComponentProps {
   }),
 )
 class UserForm extends React.PureComponent<UserFormProps> {
+  static defaultProps = {};
+
   /**
    * 隐藏
    */
   onClose = () => {
     // 清除表单数据
     this.props.form.resetFields();
-    const { dispatch } = this.props;
+    const {
+      dispatch,
+      role: {
+        form: { type },
+      },
+    } = this.props;
     dispatch({
       type: 'users/form',
-      payload: { visible: false },
+      payload: { visible: false, type },
     });
   };
 
@@ -65,8 +89,9 @@ class UserForm extends React.PureComponent<UserFormProps> {
   handleSubmit = (e: React.FormEvent) => {
     const { dispatch, form } = this.props;
     e.preventDefault();
-    form.validateFieldsAndScroll((err: Array<string>, values) => {
+    form.validateFieldsAndScroll((err: Array<string>, values: ValidateFieldsOptions) => {
       if (!err) {
+        // 提交
         dispatch({
           type: 'users/submit',
           payload: values,
@@ -106,21 +131,20 @@ class UserForm extends React.PureComponent<UserFormProps> {
     const {
       loading,
       form: { getFieldDecorator },
-      role: {
-        list: { list: roles },
-      },
       users: {
         form: { visible, title, fields = {}, type: open },
+      },
+      role: {
+        list: { list: roles },
       },
       group: { tree },
     } = this.props;
     return (
       <Modal
         title={title}
-        width={620}
-        maskClosable={false}
-        destroyOnClose
+        width={900}
         onCancel={this.onClose}
+        maskClosable={false}
         visible={visible}
         confirmLoading={loading}
         footer={[
@@ -134,55 +158,129 @@ class UserForm extends React.PureComponent<UserFormProps> {
       >
         {open === Open.ADD && (
           <Alert
-            message="密码为系统初始密码，用户账号在系统唯一，不可重复、设置后将不可修改"
+            message="用户名在系统唯一，不可重复、设置后将不可修改"
             type="info"
             showIcon
             style={{ marginBottom: 20 }}
           />
         )}
-        <Form
-          layout="horizontal"
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 20 }}
-          onSubmit={this.handleSubmit}
-        >
-          {getFieldDecorator('id', {
-            initialValue: fields.id,
-          })(<Input type="hidden" />)}
-          {getFieldDecorator('status', {
-            initialValue: fields.status || UserStatus.ENABLE,
-          })(<Input type="hidden"/>)}
-          <Form.Item label="账号">
-            {getFieldDecorator('username', {
-              initialValue: fields.username,
-              validateTrigger: ['onFocus', 'onBlur'],
-              rules: [
-                {
-                  required: true,
-                  validator: (rule, value, callback) => {
-                    if (!value) {
-                      callback('请输入登录名称');
-                      return;
-                    }
-                    this.validation(
-                      rule,
-                      value,
-                      callback,
-                      { id: fields.id, username: value },
-                      '已存在登录名称',
-                    );
-                  },
-                },
-              ],
-            })(
-              <Input
-                autoComplete="off"
-                readOnly={open === Open.UPDATE}
-                placeholder="请输入用户名"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="角色">
+        {open === Open.UPDATE && (
+          <Alert
+            message="不需要修改密码，输入框为空即可"
+            type="info"
+            showIcon
+            style={{ marginBottom: 20 }}
+          />
+        )}
+        <Form layout="horizontal" onSubmit={this.handleSubmit}>
+          <Divider title="基础信息" />
+          <Row>
+            <Col span={12}>
+              {getFieldDecorator('id', {
+                initialValue: fields.id,
+              })(<Input type="hidden" />)}
+              <Form.Item {...formItemLayout} label="用户名">
+                {getFieldDecorator('username', {
+                  initialValue: fields.username,
+                  validateTrigger: ['onFocus', 'onBlur'],
+                  rules: [
+                    {
+                      required: true,
+                      validator: (rule, value, callback) => {
+                        if (!value) {
+                          callback('请输入登录名称');
+                          return;
+                        }
+                        this.validation(
+                          rule,
+                          value,
+                          callback,
+                          { id: fields.id, username: value },
+                          '已存在登录名称',
+                        );
+                      },
+                    },
+                  ],
+                })(<Input autoComplete="off" placeholder="请输入用户名" />)}
+              </Form.Item>
+              {open === Open.ADD && (
+                <Form.Item {...formItemLayout} label="密码">
+                  {getFieldDecorator('passwordHash', {
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入登录密码!',
+                      },
+                    ],
+                  })(<Input.Password placeholder="请输入登录密码" />)}
+                </Form.Item>
+              )}
+              {open === Open.UPDATE && (
+                <Form.Item {...formItemLayout} label="密码">
+                  {getFieldDecorator(
+                    'passwordHash',
+                    {},
+                  )(<Input.Password placeholder="请输入登录密码" />)}
+                </Form.Item>
+              )}
+            </Col>
+            <Col span={12}>
+              {getFieldDecorator('groupId', {
+                initialValue: fields.group && fields.group.id,
+              })(<Input type="hidden" />)}
+              <Form.Item {...formItemLayout} label="组织">
+                {getFieldDecorator('groupTreeSelect', {
+                  initialValue:
+                    fields.group && fields.group.id === '0'
+                      ? '顶级节点'
+                      : fields.group && fields.group.id,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请选择归属组织!',
+                    },
+                  ],
+                })(
+                  <TreeSelect<string>
+                    showSearch
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    placeholder="请选择归属组织"
+                    treeDefaultExpandAll
+                    treeNodeFilterProp="title"
+                    treeData={tree}
+                    autoClearSearchValue
+                    onChange={(value, label, extra) => {
+                      const { form } = this.props;
+                      form.setFieldsValue({ groupId: extra.triggerNode.props.id });
+                    }}
+                  />,
+                )}
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="状态">
+                {getFieldDecorator('status', {
+                  initialValue: fields.status || UserStatus.ENABLE,
+                })(
+                  <RadioGroup name="status">
+                    <Radio key={UserStatus.ENABLE} value={UserStatus.ENABLE}>
+                      正常
+                    </Radio>
+                    <Radio key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
+                      禁用
+                    </Radio>
+                    <Radio key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
+                      冻结
+                    </Radio>
+                  </RadioGroup>,
+                )}
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            {...formItemLayout}
+            label="角色"
+            labelCol={{ sm: { span: 2 } }}
+            wrapperCol={{ xs: { span: 21 } }}
+          >
             {getFieldDecorator('roleIds', {
               rules: [{ required: true, message: '请为用户分配角色' }],
               initialValue: fields.roles && fields.roles.map(i => i.id),
@@ -197,98 +295,88 @@ class UserForm extends React.PureComponent<UserFormProps> {
               </Select>,
             )}
           </Form.Item>
-          <Form.Item label="组织">
-            {getFieldDecorator('groupId', {
-              initialValue:
-                fields.group && fields.group.id === '0'
-                  ? '顶级节点'
-                  : fields.group && fields.group.id,
-              rules: [
-                {
-                  required: true,
-                  message: '请为用户分配组织',
-                },
-              ],
-            })(
-              <TreeSelect<string>
-                showSearch
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                placeholder="请选择归属组织"
-                treeDefaultExpandAll
-                treeNodeFilterProp="title"
-                treeData={tree}
-                autoClearSearchValue
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="姓名">
-            {getFieldDecorator('info.name', {
-              initialValue: fields.info && fields.info.name,
-              rules: [
-                {
-                  required: true,
-                  message: '请输入用户姓名',
-                },
-              ],
-            })(<Input autoComplete="off" placeholder="请输入用户姓名" />)}
-          </Form.Item>
-          <Form.Item label="邮箱">
-            {getFieldDecorator('info.email', {
-              initialValue: fields.info && fields.info.email,
-              validateTrigger: ['onFocus', 'onBlur'],
-              rules: [
-                {
-                  required: true,
-                  validator: (rule, value, callback) => {
-                    if (!value) {
-                      callback('请输入邮箱地址');
-                      return;
-                    }
-                    const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-                    if (!mailReg.test(value)) {
-                      callback('请输入正确的邮箱');
-                      return;
-                    }
-                    this.validation(
-                      rule,
-                      value,
-                      callback,
-                      { id: fields.id, email: value },
-                      '已存在邮箱',
-                    );
-                  },
-                },
-              ],
-            })(<Input autoComplete="off" placeholder="请输入用户邮箱" />)}
-          </Form.Item>
-          <Form.Item label="手机">
-            {getFieldDecorator('info.phone', {
-              initialValue: fields.info && fields.info.phone,
-              validateTrigger: ['onFocus', 'onBlur'],
-              rules: [
-                {
-                  required: true,
-                  validator: (rule, value, callback) => {
-                    if (!value) {
-                      callback('请输入手机号');
-                      return;
-                    }
-                    const mailReg = /^1\d{10}$/;
-                    if (!mailReg.test(value)) {
-                      callback('请输入正确的手机号');
-                      return;
-                    }
-                    this.validation(
-                      rule,
-                      value,
-                      callback,
-                      { id: fields.id, phone: value },
-                      '已存在手机号',
-                    );
-                  },
-                },
-              ],
-            })(<Input autoComplete="off" placeholder="请输入用户手机号" />)}
+          <Divider title="详细信息" />
+          <Row>
+            <Col span={12}>
+              <Form.Item {...formItemLayout} label="姓名">
+                {getFieldDecorator('name', {
+                  initialValue: fields.info && fields.info.name,
+                })(<Input autoComplete="off" placeholder="请输入用户姓名" />)}
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="邮箱">
+                {getFieldDecorator('email', {
+                  initialValue: fields.info && fields.info.email,
+                  validateTrigger: ['onFocus', 'onBlur'],
+                  rules: [
+                    {
+                      validator: (rule, value, callback) => {
+                        if (value) {
+                          const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+                          if (!mailReg.test(value)) {
+                            callback('请输入正确的邮箱');
+                            return;
+                          }
+                          this.validation(
+                            rule,
+                            value,
+                            callback,
+                            { id: fields.id, email: value },
+                            '已存在邮箱',
+                          );
+                        }
+                        callback();
+                      },
+                    },
+                  ],
+                })(<Input autoComplete="off" placeholder="请输入用户邮箱" />)}
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item {...formItemLayout} label="手机">
+                {getFieldDecorator('phone', {
+                  initialValue: fields.info && fields.info.phone,
+                  validateTrigger: ['onFocus', 'onBlur'],
+                  rules: [
+                    {
+                      validator: (rule, value, callback) => {
+                        if (value) {
+                          const mailReg = /^1\d{10}$/;
+                          if (!mailReg.test(value)) {
+                            callback('请输入正确的手机号');
+                            return;
+                          }
+                          this.validation(
+                            rule,
+                            value,
+                            callback,
+                            { id: fields.id, phone: value },
+                            '已存在手机号',
+                          );
+                        }
+                        callback();
+                      },
+                    },
+                  ],
+                })(<Input autoComplete="off" placeholder="请输入手机号" />)}
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="身份证">
+                {getFieldDecorator(
+                  'idCard',
+                  {},
+                )(<Input autoComplete="off" placeholder="请输入身份证号" />)}
+              </Form.Item>
+            </Col>
+          </Row>
+          <Divider title="其他信息" />
+          <Form.Item
+            {...formItemLayout}
+            labelCol={{ sm: { span: 2 } }}
+            wrapperCol={{ xs: { span: 21 } }}
+            label="备注"
+          >
+            {getFieldDecorator('remarks', {
+              initialValue: fields.remarks,
+            })(<TextArea autoComplete="off" rows={3} placeholder="请输入备注信息" />)}
           </Form.Item>
         </Form>
       </Modal>
