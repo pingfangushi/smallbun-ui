@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, TreeSelect, Alert, Radio } from 'antd';
+import { Button, Form, Input, Modal, Select, TreeSelect, Alert } from 'antd';
 import * as React from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { Action, Dispatch } from 'redux';
@@ -9,7 +9,6 @@ import { StateType as GroupStateType } from '../group/model';
 import { StateType as RoleStateType } from '@/pages/role/model';
 import { UserStatus } from '@/pages/user/typings';
 
-const RadioGroup = Radio.Group;
 const { Option } = Select;
 
 export interface UserFormProps extends FormComponentProps {
@@ -150,6 +149,9 @@ class UserForm extends React.PureComponent<UserFormProps> {
           {getFieldDecorator('id', {
             initialValue: fields.id,
           })(<Input type="hidden" />)}
+          {getFieldDecorator('status', {
+            initialValue: fields.status || UserStatus.ENABLE,
+          })(<Input type="hidden"/>)}
           <Form.Item label="账号">
             {getFieldDecorator('username', {
               initialValue: fields.username,
@@ -287,24 +289,6 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 },
               ],
             })(<Input autoComplete="off" placeholder="请输入用户手机号" />)}
-          </Form.Item>
-          <Form.Item label="状态">
-            {getFieldDecorator('status', {
-              rules: [{ required: true, message: '请选择用户状态' }],
-              initialValue: fields.status || UserStatus.NORMAL,
-            })(
-              <RadioGroup name="status">
-                <Radio key={UserStatus.NORMAL} value={UserStatus.NORMAL}>
-                  正常
-                </Radio>
-                <Radio key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
-                  禁用
-                </Radio>
-                <Radio key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
-                  冻结
-                </Radio>
-              </RadioGroup>,
-            )}
           </Form.Item>
         </Form>
       </Modal>

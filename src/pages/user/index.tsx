@@ -13,6 +13,7 @@ import {
   Icon,
   Modal,
   Dropdown,
+  Switch,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { Dispatch, Action } from 'redux';
@@ -31,8 +32,8 @@ import { TableListItem } from './data.d';
 import OrgSearchTree from '../group/tree';
 import { Add, Remove, Update } from '@/components/OpenButton';
 import { Open } from '@/pages/typings';
-import { findDict } from '@/utils/dict';
 import Authorized from '@/components/Authorized/Authorized';
+import { UserStatus } from '@/pages/user/typings';
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -43,17 +44,18 @@ const FormItem = Form.Item;
  * Created by qinggang.zuo@gmail.com / 2689170096@qq.com on  2019/9/22 14:32
  */
 interface TableListProps extends FormComponentProps {
+  loading: boolean;
   dispatch: Dispatch<
     Action<
       | 'users/form'
       | 'users/fetch'
-      | 'users/updatePassWord'
       | 'users/remove'
       | 'users/submit'
       | 'users/details'
-    >
-  >;
-  loading: boolean;
+      | 'users/updateStatus'
+      | 'users/updatePassWord'
+      >
+    >;
   role: RoleStateType;
   users: StateType;
 }
@@ -116,9 +118,25 @@ class Index extends PureComponent<TableListProps, TableListState> {
     {
       title: '状态',
       dataIndex: 'status',
-      sorter: true,
       align: 'center',
-      render: text => text,
+      sorter: true,
+      render: (text, record) => (
+        <Switch
+          onClick={(checked: boolean) => {
+            const { dispatch } = this.props;
+            dispatch({
+              type: 'users/updateStatus',
+              payload: {
+                id: record.id,
+                status: checked ? UserStatus.ENABLE : UserStatus.DISABLE,
+              },
+            });
+          }}
+          checkedChildren="启用"
+          unCheckedChildren="禁用"
+          checked={text === UserStatus.ENABLE}
+        />
+      ),
     },
     {
       title: '上次登录时间',
@@ -279,7 +297,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    const status = findDict('USER_STATUS');
     return (
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
@@ -295,12 +312,15 @@ class Index extends PureComponent<TableListProps, TableListState> {
               <FormItem label="用户状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择用户状态" allowClear style={{ width: '100%' }}>
-                    {status &&
-                      status.items.map(value => (
-                        <Option key={value.value} value={value.value}>
-                          {value.label}
-                        </Option>
-                      ))}
+                    <Option key={UserStatus.ENABLE} value={UserStatus.ENABLE}>
+                      启用
+                    </Option>
+                    <Option key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
+                      禁用
+                    </Option>
+                    <Option key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
+                      冻结
+                    </Option>
                   </Select>,
                 )}
               </FormItem>

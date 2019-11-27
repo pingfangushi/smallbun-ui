@@ -32,7 +32,7 @@ import { Open, Result, Status } from '@/pages/typings';
 import { Add, Remove } from '@/components/OpenButton';
 import { findDict } from '@/utils/dict';
 import Authorized from '@/components/Authorized/Authorized';
-import { RoleStatus } from '@/pages/role/typings';
+import { GroupStatus } from '@/pages/group/typings';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -119,13 +119,13 @@ class Index extends React.Component<TableListProps, TableListState> {
               type: 'group/updateStatus',
               payload: {
                 id: record.id,
-                status: checked ? RoleStatus.ENABLE : RoleStatus.DISABLE,
+                status: checked ? GroupStatus.ENABLE : GroupStatus.DISABLE,
               },
             });
           }}
           checkedChildren="启用"
           unCheckedChildren="禁用"
-          checked={text === RoleStatus.ENABLE}
+          checked={text === GroupStatus.ENABLE}
         />
       ),
     },
@@ -264,7 +264,6 @@ class Index extends React.Component<TableListProps, TableListState> {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    const status = findDict('GROUP_STATUS');
     return (
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
@@ -280,12 +279,12 @@ class Index extends React.Component<TableListProps, TableListState> {
               <FormItem label="机构状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择机构状态" allowClear style={{ width: '100%' }}>
-                    {status &&
-                      status.items.map(value => (
-                        <Option key={value.value} value={value.value}>
-                          {value.label}
-                        </Option>
-                      ))}
+                    <Option key={GroupStatus.ENABLE} value={GroupStatus.ENABLE}>
+                      启用
+                    </Option>
+                    <Option key={GroupStatus.DISABLE} value={GroupStatus.DISABLE}>
+                      禁用
+                    </Option>
                   </Select>,
                 )}
               </FormItem>

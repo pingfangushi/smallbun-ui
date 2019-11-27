@@ -1,9 +1,9 @@
 import { AnyAction, Reducer } from 'redux';
 import { EffectsCommandMap } from 'dva';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import { FormDetails, FormItem, TableListItem } from './data.d';
 import { Omit, Open, Result, Status } from '@/pages/typings';
-import { add, unique, getById, getPage, removeByIds, updateById, updatePassWord } from './service';
+import { add, unique, getById, getPage, removeByIds, updateById, updatePassWord, updateStatusById } from './service';
 import { TableListData } from '@/components/StandardTable/data';
 
 export type Effect = (
@@ -35,6 +35,7 @@ export interface ModelType {
     remove: Effect;
     unique: Effect;
     details: Effect;
+    updateStatus: Effect;
     updatePassWord: Effect;
   };
   reducers: {
@@ -44,6 +45,7 @@ export interface ModelType {
   };
 }
 
+// noinspection DuplicatedCode
 const UserModel: ModelType = {
   namespace: 'users',
   state: {
@@ -128,6 +130,21 @@ const UserModel: ModelType = {
         }
       }
       yield put({ type: 'saveDetails', payload: { visible, fields: {} } });
+    },
+    *updateStatus({ payload }, { call, put }) {
+      const response: Result<boolean> = yield call(updateStatusById, payload);
+      if (response.status === Status.SUCCESS && response.result === true) {
+        // 刷新数据
+        yield put({
+          type: 'fetch',
+          payload: { sorter: 'lastModifiedTime', asc: false },
+        });
+        notification.success({
+          placement: 'topRight',
+          message: '提示',
+          description: response.message,
+        });
+      }
     },
     *updatePassWord({ payload }, { call }) {
       const response: Result<object> = yield call(updatePassWord, payload);

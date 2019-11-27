@@ -3,7 +3,7 @@
  */
 export enum UserStatus {
   // 正常
-  NORMAL = 'NORMAL',
+  ENABLE = 'ENABLE',
   // 禁用
   DISABLE = 'DISABLE',
   // 冻结

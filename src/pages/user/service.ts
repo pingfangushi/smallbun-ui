@@ -54,7 +54,7 @@ export async function updateById(params: {}) {
  * @param params
  */
 export async function updatePassWord(params: {}) {
-  return request('/api/user/update_password', {
+  return request('/api/user/update/password', {
     method: 'PUT',
     data: params,
   });
@@ -66,5 +66,14 @@ export async function updatePassWord(params: {}) {
 export async function removeByIds(params: { ids: [] }) {
   return request(`/api/user/${new Array(params.ids).join(',').toString()}`, {
     method: 'DELETE',
+  });
+}
+/**
+ * 根据ID更新状态
+ * @param params
+ */
+export async function updateStatusById(params: { id: string; status: string }) {
+  return request(`/api/user/${params.id}/status/${params.status}`, {
+    method: 'PUT',
   });
 }

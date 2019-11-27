@@ -25,7 +25,6 @@ import { TableListItem } from './data.d';
 import styles from './style.less';
 import { Open } from '@/pages/typings';
 import { Add, Remove, Update } from '@/components/OpenButton';
-import { findDict } from '@/utils/dict';
 
 import StandardTable from '@/components/StandardTable';
 import RoleAuthorize from '@/pages/role/auth';
@@ -89,6 +88,11 @@ class Index extends React.Component<TableListProps, TableListState> {
     {
       title: '编码',
       dataIndex: 'code',
+      align: 'center',
+    },
+    {
+      title: '备注',
+      dataIndex: 'remarks',
       align: 'center',
     },
     {
@@ -258,7 +262,6 @@ class Index extends React.Component<TableListProps, TableListState> {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    const status = findDict('ROLE_STATUS');
     return (
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
@@ -274,12 +277,12 @@ class Index extends React.Component<TableListProps, TableListState> {
               <FormItem label="角色状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择角色状态" allowClear style={{ width: '100%' }}>
-                    {status &&
-                      status.items.map(value => (
-                        <Option key={value.value} value={value.value}>
-                          {value.label}
-                        </Option>
-                      ))}
+                    <Option key={RoleStatus.ENABLE} value={RoleStatus.ENABLE}>
+                      启用
+                    </Option>
+                    <Option key={RoleStatus.DISABLE} value={RoleStatus.DISABLE}>
+                      禁用
+                    </Option>
                   </Select>,
                 )}
               </FormItem>

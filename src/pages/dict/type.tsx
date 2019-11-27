@@ -286,8 +286,12 @@ class DictType extends React.Component<DictTableListProps, DictTableListState> {
               <FormItem label="字典状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择字典状态" allowClear style={{ width: '100%' }}>
-                    <Option value={TypeStatus.ENABLE}>启用</Option>
-                    <Option value={TypeStatus.DISABLE}>禁用</Option>
+                    <Option value={TypeStatus.ENABLE} key={TypeStatus.ENABLE}>
+                      启用
+                    </Option>
+                    <Option value={TypeStatus.DISABLE} key={TypeStatus.DISABLE}>
+                      禁用
+                    </Option>
                   </Select>,
                 )}
               </FormItem>
