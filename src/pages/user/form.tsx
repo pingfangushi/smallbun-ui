@@ -166,7 +166,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
         )}
         {open === Open.UPDATE && (
           <Alert
-            message="不需要修改密码，输入框为空即可"
+            message="密码不需要修改时，输入框为空即可"
             type="info"
             showIcon
             style={{ marginBottom: 20 }}
