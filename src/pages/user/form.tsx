@@ -299,12 +299,12 @@ class UserForm extends React.PureComponent<UserFormProps> {
           <Row>
             <Col span={12}>
               <Form.Item {...formItemLayout} label="姓名">
-                {getFieldDecorator('name', {
+                {getFieldDecorator('info.name', {
                   initialValue: fields.info && fields.info.name,
                 })(<Input autoComplete="off" placeholder="请输入用户姓名" />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="邮箱">
-                {getFieldDecorator('email', {
+                {getFieldDecorator('info.email', {
                   initialValue: fields.info && fields.info.email,
                   validateTrigger: ['onFocus', 'onBlur'],
                   rules: [
@@ -333,7 +333,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
             </Col>
             <Col span={12}>
               <Form.Item {...formItemLayout} label="手机">
-                {getFieldDecorator('phone', {
+                {getFieldDecorator('info.phone', {
                   initialValue: fields.info && fields.info.phone,
                   validateTrigger: ['onFocus', 'onBlur'],
                   rules: [
@@ -360,10 +360,31 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 })(<Input autoComplete="off" placeholder="请输入手机号" />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="身份证">
-                {getFieldDecorator(
-                  'idCard',
-                  {},
-                )(<Input autoComplete="off" placeholder="请输入身份证号" />)}
+                {getFieldDecorator('info.idCard', {
+                  initialValue: fields.info && fields.info.phone,
+                  validateTrigger: ['onFocus', 'onBlur'],
+                  rules: [
+                    {
+                      validator: (rule, value, callback) => {
+                        if (value) {
+                          const mailReg = /^1\d{10}$/;
+                          if (!mailReg.test(value)) {
+                            callback('请输入正确的手机号');
+                            return;
+                          }
+                          this.validation(
+                            rule,
+                            value,
+                            callback,
+                            { id: fields.id, idCard: value },
+                            '已存在身份证号',
+                          );
+                        }
+                        callback();
+                      },
+                    },
+                  ],
+                })(<Input autoComplete="off" placeholder="请输入身份证号" />)}
               </Form.Item>
             </Col>
           </Row>

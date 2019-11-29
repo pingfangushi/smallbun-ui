@@ -3,6 +3,7 @@ import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 import slash from 'slash2';
 
 // import darkTheme from '@ant-design/dark-theme';
+// import aliyunTheme from '@ant-design/aliyun-theme';
 
 const { pwa } = defaultSettings;
 
@@ -199,6 +200,7 @@ export default {
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
+    // ...aliyunTheme,
   },
   define: {},
   ignoreMomentLocale: true,
