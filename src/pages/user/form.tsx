@@ -9,7 +9,6 @@ import { StateType } from './model';
 import { StateType as GroupStateType } from '../group/model';
 import { UserStatus } from './typings';
 import { StateType as RoleStateType } from '@/pages/role/model';
-import { Open } from '@/pages/typings';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -28,13 +27,10 @@ export interface UserFormProps extends FormComponentProps {
 // formItem布局
 const formItemLayout = {
   labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 },
+    xs: { span: 4 },
   },
   wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 24 },
-    md: { span: 18 },
+    xs: { span: 18 },
   },
 };
 
@@ -132,7 +128,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
       loading,
       form: { getFieldDecorator },
       users: {
-        form: { visible, title, fields = {}, type: open },
+        form: { visible, title, fields = {} },
       },
       role: {
         list: { list: roles },
@@ -142,7 +138,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
     return (
       <Modal
         title={title}
-        width={880}
+        width={900}
         onCancel={this.onClose}
         maskClosable={false}
         visible={visible}
@@ -193,26 +189,24 @@ class UserForm extends React.PureComponent<UserFormProps> {
                   ],
                 })(<Input autoComplete="off" placeholder="请输入用户名" />)}
               </Form.Item>
-              {open === Open.ADD && (
-                <Form.Item {...formItemLayout} label="密码">
-                  {getFieldDecorator('passwordHash', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入登录密码!',
-                      },
-                    ],
-                  })(<Input.Password placeholder="请输入登录密码" />)}
-                </Form.Item>
-              )}
-              {open === Open.UPDATE && (
-                <Form.Item {...formItemLayout} label="密码">
-                  {getFieldDecorator(
-                    'passwordHash',
-                    {},
-                  )(<Input.Password placeholder="请输入登录密码" />)}
-                </Form.Item>
-              )}
+              <Form.Item
+                {...formItemLayout}
+                label="角色"
+              >
+                {getFieldDecorator('roleIds', {
+                  rules: [{ required: true, message: '请为用户分配角色' }],
+                  initialValue: fields.roles && fields.roles.map(i => i.id),
+                })(
+                  <Select showSearch placeholder="请为用户分配角色" allowClear mode="multiple">
+                    {roles &&
+                    roles.map(value => (
+                      <Option key={value.id} value={value.id}>
+                        {value.name}
+                      </Option>
+                    ))}
+                  </Select>,
+                )}
+              </Form.Item>
             </Col>
             <Col span={12}>
               {getFieldDecorator('groupId', {
@@ -265,26 +259,6 @@ class UserForm extends React.PureComponent<UserFormProps> {
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item
-            {...formItemLayout}
-            label="角色"
-            labelCol={{ sm: { span: 2 } }}
-            wrapperCol={{ xs: { span: 21 } }}
-          >
-            {getFieldDecorator('roleIds', {
-              rules: [{ required: true, message: '请为用户分配角色' }],
-              initialValue: fields.roles && fields.roles.map(i => i.id),
-            })(
-              <Select showSearch placeholder="请为用户分配角色" allowClear mode="multiple">
-                {roles &&
-                  roles.map(value => (
-                    <Option key={value.id} value={value.id}>
-                      {value.name}
-                    </Option>
-                  ))}
-              </Select>,
-            )}
-          </Form.Item>
           <Divider title="详细信息" />
           <Row>
             <Col span={12}>
@@ -380,8 +354,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
           </Row>
           <Divider title="其他信息" />
           <Form.Item
-            {...formItemLayout}
-            labelCol={{ sm: { span: 2 } }}
+            labelCol={{ xs: { span: 2 } }}
             wrapperCol={{ xs: { span: 21 } }}
             label="备注"
           >
