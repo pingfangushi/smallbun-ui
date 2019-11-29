@@ -13,7 +13,6 @@ import {
   Icon,
   Modal,
   Dropdown,
-  Switch,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { Dispatch, Action } from 'redux';
@@ -101,8 +100,8 @@ class Index extends PureComponent<TableListProps, TableListState> {
       align: 'center',
     },
     {
-      title: '邮箱',
-      dataIndex: 'info.email',
+      title: '姓名',
+      dataIndex: 'info.name',
       align: 'center',
     },
     {
@@ -120,23 +119,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
       dataIndex: 'status',
       align: 'center',
       sorter: true,
-      render: (text, record) => (
-        <Switch
-          onClick={(checked: boolean) => {
-            const { dispatch } = this.props;
-            dispatch({
-              type: 'users/updateStatus',
-              payload: {
-                id: record.id,
-                status: checked ? UserStatus.ENABLE : UserStatus.DISABLE,
-              },
-            });
-          }}
-          checkedChildren="启用"
-          unCheckedChildren="禁用"
-          checked={text === UserStatus.ENABLE}
-        />
-      ),
+      render: text => text,
     },
     {
       title: '上次登录时间',
@@ -491,7 +474,7 @@ class PassWord extends React.PureComponent<SetPassWordProps> {
     return (
       <Modal
         title="设置密码"
-        width={600}
+        width={530}
         onCancel={this.props.onClose}
         maskClosable={false}
         visible={this.props.visible}
@@ -519,41 +502,39 @@ class PassWord extends React.PureComponent<SetPassWordProps> {
           </Button>,
         ]}
       >
-        <Card bordered={false}>
-          <Form layout="horizontal" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
-            <Row>
-              {getFieldDecorator('id', {
-                initialValue: this.props.id,
-              })(<Input type="hidden" />)}
-              <Form.Item label="登录密码">
-                {getFieldDecorator('password', {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请输入登录密码!',
-                    },
-                    {
-                      validator: this.validateToNextPassword,
-                    },
-                  ],
-                })(<Input.Password placeholder="请输入登录密码" />)}
-              </Form.Item>
-              <Form.Item label="确认密码">
-                {getFieldDecorator('confirm', {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请输入确认密码!',
-                    },
-                    {
-                      validator: this.compareToFirstPassword,
-                    },
-                  ],
-                })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="请输入确认密码" />)}
-              </Form.Item>
-            </Row>
-          </Form>
-        </Card>
+        <Form layout="horizontal" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
+          <Row>
+            {getFieldDecorator('id', {
+              initialValue: this.props.id,
+            })(<Input type="hidden" />)}
+            <Form.Item label="登录密码">
+              {getFieldDecorator('password', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入登录密码!',
+                  },
+                  {
+                    validator: this.validateToNextPassword,
+                  },
+                ],
+              })(<Input.Password placeholder="请输入登录密码" />)}
+            </Form.Item>
+            <Form.Item label="确认密码">
+              {getFieldDecorator('confirm', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入确认密码!',
+                  },
+                  {
+                    validator: this.compareToFirstPassword,
+                  },
+                ],
+              })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="请输入确认密码" />)}
+            </Form.Item>
+          </Row>
+        </Form>
       </Modal>
     );
   }

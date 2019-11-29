@@ -142,7 +142,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
     return (
       <Modal
         title={title}
-        width={900}
+        width={880}
         onCancel={this.onClose}
         maskClosable={false}
         visible={visible}
@@ -156,22 +156,12 @@ class UserForm extends React.PureComponent<UserFormProps> {
           </Button>,
         ]}
       >
-        {open === Open.ADD && (
-          <Alert
-            message="用户名在系统唯一，不可重复、设置后将不可修改"
-            type="info"
-            showIcon
-            style={{ marginBottom: 20 }}
-          />
-        )}
-        {open === Open.UPDATE && (
-          <Alert
-            message="密码不需要修改时，输入框为空即可"
-            type="info"
-            showIcon
-            style={{ marginBottom: 20 }}
-          />
-        )}
+        <Alert
+          message="用户名在系统唯一，不可重复、设置后将不可修改"
+          type="warning"
+          showIcon
+          style={{ marginBottom: 20 }}
+        />
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
           <Divider title="基础信息" />
           <Row>
@@ -179,7 +169,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
               {getFieldDecorator('id', {
                 initialValue: fields.id,
               })(<Input type="hidden" />)}
-              <Form.Item {...formItemLayout} label="用户名">
+              <Form.Item {...formItemLayout} label="账号">
                 {getFieldDecorator('username', {
                   initialValue: fields.username,
                   validateTrigger: ['onFocus', 'onBlur'],

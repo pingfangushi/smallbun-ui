@@ -86,7 +86,9 @@ const UserModel: ModelType = {
         }
       }
       // 调用role
-      yield put({ type: 'role/fetch', payload: { sorter: 'lastModifiedTime', asc: false } });
+      if (visible) {
+        yield put({ type: 'role/fetch', payload: { sorter: 'lastModifiedTime', asc: false } });
+      }
       // 保存form数据
       yield put({ type: 'saveForm', payload: { type, fields, title, visible } });
     },
