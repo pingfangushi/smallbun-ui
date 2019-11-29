@@ -27,10 +27,10 @@ export interface UserFormProps extends FormComponentProps {
 // formItem布局
 const formItemLayout = {
   labelCol: {
-    xs: { span: 4 },
+    md: { span: 4 },
   },
   wrapperCol: {
-    xs: { span: 18 },
+    md: { span: 20 },
   },
 };
 
@@ -138,7 +138,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
     return (
       <Modal
         title={title}
-        width={900}
+        width={830}
         onCancel={this.onClose}
         maskClosable={false}
         visible={visible}
@@ -353,15 +353,19 @@ class UserForm extends React.PureComponent<UserFormProps> {
             </Col>
           </Row>
           <Divider title="其他信息" />
-          <Form.Item
-            labelCol={{ xs: { span: 2 } }}
-            wrapperCol={{ xs: { span: 21 } }}
-            label="备注"
-          >
-            {getFieldDecorator('remarks', {
-              initialValue: fields.remarks,
-            })(<TextArea autoComplete="off" rows={3} placeholder="请输入备注信息" />)}
-          </Form.Item>
+          <Row>
+            <Col span={24}>
+              <Form.Item
+                labelCol={{ md: { span: 2 } }}
+                wrapperCol={{ md: { span: 22 } }}
+                label="备注"
+              >
+                {getFieldDecorator('remarks', {
+                  initialValue: fields.remarks,
+                })(<TextArea autoComplete="off" rows={3} placeholder="请输入备注信息" />)}
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     );
