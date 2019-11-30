@@ -43,7 +43,6 @@ export interface ModelType {
     submit: Effect;
     remove: Effect;
     unique: Effect;
-    details: Effect;
     updateStatus: Effect;
     updatePassword: Effect;
   };
@@ -129,17 +128,6 @@ const UserModel: ModelType = {
         yield put({ type: 'fetch', payload: { sorter: 'lastModifiedTime', asc: false } });
         callback();
       }
-    },
-    *details({ payload }, { call, put }) {
-      const { visible, id } = payload;
-      if (visible) {
-        const response: Result<object> = yield call(getById, id);
-        if (response.status === Status.SUCCESS) {
-          yield put({ type: 'saveDetails', payload: { visible, fields: response.result } });
-          return;
-        }
-      }
-      yield put({ type: 'saveDetails', payload: { visible, fields: {} } });
     },
     *updateStatus({ payload }, { call, put }) {
       const response: Result<boolean> = yield call(updateStatusById, payload);

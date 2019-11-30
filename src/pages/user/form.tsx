@@ -355,7 +355,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                     {
                       validator: (rule, value, callback) => {
                         if (value) {
-                          const mailReg = /^1\d{10}$/;
+                          const mailReg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/;
                           if (!mailReg.test(value)) {
                             callback('请输入正确的身份证号');
                             return;

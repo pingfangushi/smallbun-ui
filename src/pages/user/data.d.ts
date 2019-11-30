@@ -87,8 +87,10 @@ export interface FormDetails {
 export interface DetailsItemFields {
   id?: string;
   groupId?: string;
+  name?: string;
   username?: string;
-  type?: string;
+  phone?: string;
+  email?: string;
   status?: number;
   remarks?: number;
   group?: OrgTableListItem;

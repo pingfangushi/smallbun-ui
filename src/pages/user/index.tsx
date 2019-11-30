@@ -23,7 +23,6 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
 import { ColumnProps } from 'antd/lib/table';
 import UserForm from './form';
-import UserDetails from './details';
 import { StateType } from './model';
 import { StateType as RoleStateType } from '@/pages/role/model';
 import styles from './style.less';
@@ -129,12 +128,21 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '手机',
       dataIndex: 'phone',
       align: 'center',
+      width: 150,
       render: text => text || <>-</>,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       align: 'center',
+      width: 200,
+      render: text => text || <>-</>,
+    },
+    {
+      title: '身份证',
+      dataIndex: 'idCard',
+      align: 'center',
+      width: 200,
       render: text => text || <>-</>,
     },
     {
@@ -146,6 +154,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '状态',
       dataIndex: 'status',
       align: 'center',
+      width: 150,
       sorter: true,
       render: text => {
         if (text === UserStatus.ENABLE) {
@@ -163,36 +172,31 @@ class Index extends PureComponent<TableListProps, TableListState> {
     {
       title: '操作',
       align: 'center',
+      fixed: 'right',
       render: text => (
         <Fragment>
-          <Authorized authority="manage:operate:user:remove" noMatch={<></>}>
-            <Authorized authority="manage:operate:user:update" noMatch={<></>}>
-              <a onClick={this.updateOnClick.bind(this, text.id)}>
-                {formatMessage({ id: 'edit.name' })}
-              </a>
-              <Divider type="vertical" />
-            </Authorized>
-            <Popconfirm
-              className={styles.openButton}
-              style={{ marginLeft: 70, clear: 'both', whiteSpace: 'nowrap' }}
-              title={formatMessage({ id: 'del.confirm.title' })}
-              placement="bottomLeft"
-              onConfirm={() => {
-                this.removeOnClick([text.id]);
-              }}
-              icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-            >
-              <a>{formatMessage({ id: 'del.name' })}</a>
-            </Popconfirm>
+          <Popconfirm
+            className={styles.openButton}
+            style={{ marginLeft: 70, clear: 'both', whiteSpace: 'nowrap' }}
+            title={formatMessage({ id: 'del.confirm.title' })}
+            placement="bottomLeft"
+            onConfirm={() => {
+              this.removeOnClick([text.id]);
+            }}
+            icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+          >
+            <a>{formatMessage({ id: 'del.name' })}</a>
             <Divider type="vertical" />
-          </Authorized>
+          </Popconfirm>
           <Dropdown
             placement="bottomCenter"
             overlay={
               <Menu>
                 <Menu.Item key="2">
-                  <Authorized authority="manage:operate:user:detail" noMatch={<></>}>
-                    <a onClick={this.detailsOnClick.bind(this, text.id)}>用户详情</a>
+                  <Authorized authority="manage:operate:user:update" noMatch={<></>}>
+                    <a onClick={this.updateOnClick.bind(this, text.id)}>
+                      {formatMessage({ id: 'edit.name' })}
+                    </a>
                   </Authorized>
                 </Menu.Item>
                 <Menu.Item key="3">
@@ -259,17 +263,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
    */
   passWordOnClick = (id: string) => {
     this.setState({ passWordVisible: true, passWordId: id });
-  };
-
-  /**
-   * detailsOnClick
-   */
-  detailsOnClick = (id: string) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'users/details',
-      payload: { visible: true, id },
-    });
   };
 
   removeOnClick = (ids: string[]) => {
@@ -429,6 +422,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
                   loading={loading}
                   selectedRows={selectedRows}
                   onSelectRow={this.handleSelectRows}
+                  scroll={{ x: 1250 }}
                 />
               </Card>
             </Col>
@@ -455,7 +449,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
             });
           }}
         />
-        <UserDetails />
       </div>
     );
   }
