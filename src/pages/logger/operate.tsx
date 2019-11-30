@@ -62,51 +62,62 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
       title: '模块',
       dataIndex: 'module',
       align: 'center',
+      width: 200,
     },
     {
       title: '功能',
       dataIndex: 'feature',
       align: 'center',
+      width: 200,
     },
     {
       title: '浏览器',
       dataIndex: 'browser',
       align: 'center',
+      width: 120,
     },
     {
       title: '平台',
       dataIndex: 'platform',
       align: 'center',
+      width: 150,
     },
     {
       title: 'IP',
       dataIndex: 'ip',
       align: 'center',
+      width: 150,
     },
     {
       title: '地点',
       dataIndex: 'location',
       align: 'center',
+      width: 150,
     },
     {
       title: '系统',
       dataIndex: 'os',
       align: 'center',
+      width: 150,
     },
     {
       title: '用户',
       dataIndex: 'user',
       align: 'center',
+      width: 100,
     },
     {
       title: '时间',
       dataIndex: 'time',
       align: 'center',
       sorter: true,
+      width: 250,
     },
     {
       title: '操作',
       align: 'center',
+      fixed: 'right',
+      width: 50,
       render: text => (
         <Fragment>
           <a
@@ -241,6 +252,7 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
             loading={loading}
             prompt={false}
             rowSelection={undefined}
+            scroll={{ x: 1250 }}
           />
         </Card>
         <OperateDetailsModal />

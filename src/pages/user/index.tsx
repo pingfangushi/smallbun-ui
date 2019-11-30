@@ -98,11 +98,13 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '账号',
       dataIndex: 'username',
       align: 'center',
+      width: 150,
     },
     {
       title: '头像',
       dataIndex: 'headPortraitUrl',
       align: 'center',
+      width: 100,
       render: (text, record) => {
         if (record.headPortraitUrl) {
           return <Avatar src={record.headPortraitUrl} key={text} />;
@@ -118,11 +120,13 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '姓名',
       dataIndex: 'name',
       align: 'center',
+      width: 100,
     },
     {
       title: '昵称',
       dataIndex: 'nickName',
       align: 'center',
+      width: 100,
     },
     {
       title: '手机',
@@ -149,6 +153,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '组织',
       dataIndex: 'group.name',
       align: 'center',
+      width: 100,
     },
     {
       title: '状态',
@@ -173,6 +178,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '操作',
       align: 'center',
       fixed: 'right',
+      width: 130,
       render: text => (
         <Fragment>
           <Popconfirm
@@ -422,7 +428,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
                   loading={loading}
                   selectedRows={selectedRows}
                   onSelectRow={this.handleSelectRows}
-                  scroll={{ x: 1250 }}
+                  scroll={{ x: 1300 }}
                 />
               </Card>
             </Col>
