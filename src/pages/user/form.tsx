@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Modal, Radio, Row, Select, TreeSelect, Alert } from 'antd';
+import { Alert, Button, Col, Form, Input, Modal, Radio, Row, Select, TreeSelect } from 'antd';
 import * as React from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { Action, Dispatch } from 'redux';
@@ -9,6 +9,7 @@ import { StateType } from './model';
 import { StateType as GroupStateType } from '../group/model';
 import { UserStatus } from './typings';
 import { StateType as RoleStateType } from '@/pages/role/model';
+import { Open } from '@/pages/typings';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -115,7 +116,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
       payload,
       callback: (unique: boolean) => {
         if (!unique) {
-          callback(`${message}：${value}!`);
+          callback(new Error(`${message}：${value}!`));
           return;
         }
         callback();
@@ -128,7 +129,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
       loading,
       form: { getFieldDecorator },
       users: {
-        form: { visible, title, fields = {} },
+        form: { visible, title, fields = {}, type: open },
       },
       role: {
         list: { list: roles },
@@ -177,6 +178,10 @@ class UserForm extends React.PureComponent<UserFormProps> {
                           callback('请输入登录名称');
                           return;
                         }
+                        if (/[\u4E00-\u9FA5]/g.test(value) || /^[0-9]+.?[0-9]*$/g.test(value)) {
+                          callback(new Error('只可输入字母、不能输入汉字!'));
+                          return;
+                        }
                         this.validation(
                           rule,
                           value,
@@ -187,7 +192,13 @@ class UserForm extends React.PureComponent<UserFormProps> {
                       },
                     },
                   ],
-                })(<Input autoComplete="off" placeholder="请输入用户名" />)}
+                })(
+                  open === Open.ADD ? (
+                    <Input autoComplete="off" placeholder="请输入用户名" />
+                  ) : (
+                    <span>{fields.username}</span>
+                  ),
+                )}
               </Form.Item>
               <Form.Item {...formItemLayout} label="角色">
                 {getFieldDecorator('roleIds', {
@@ -223,9 +234,6 @@ class UserForm extends React.PureComponent<UserFormProps> {
               </Form.Item>
             </Col>
             <Col span={12}>
-              {getFieldDecorator('groupId', {
-                initialValue: fields.group && fields.group.id,
-              })(<Input type="hidden" />)}
               <Form.Item {...formItemLayout} label="昵称">
                 {getFieldDecorator('nickName', {
                   initialValue: fields.nickName,
@@ -238,7 +246,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 })(<Input autoComplete="off" placeholder="请输入用户昵称" />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="组织">
-                {getFieldDecorator('groupTreeSelect', {
+                {getFieldDecorator('groupId', {
                   initialValue:
                     fields.group && fields.group.id === '0'
                       ? '顶级节点'
@@ -273,6 +281,12 @@ class UserForm extends React.PureComponent<UserFormProps> {
               <Form.Item {...formItemLayout} label="姓名">
                 {getFieldDecorator('name', {
                   initialValue: fields.name,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入用户姓名',
+                    },
+                  ],
                 })(<Input autoComplete="off" placeholder="请输入用户姓名" />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="邮箱">
@@ -292,11 +306,12 @@ class UserForm extends React.PureComponent<UserFormProps> {
                             rule,
                             value,
                             callback,
-                            { id: fields.id, email: value },
+                            { id: fields.id, email: value.trim() },
                             '已存在邮箱',
                           );
+                        } else {
+                          callback();
                         }
-                        callback();
                       },
                     },
                   ],
@@ -314,26 +329,27 @@ class UserForm extends React.PureComponent<UserFormProps> {
                         if (value) {
                           const mailReg = /^1\d{10}$/;
                           if (!mailReg.test(value)) {
-                            callback('请输入正确的手机号');
+                            callback(new Error('请输入正确的手机号'));
                             return;
                           }
                           this.validation(
                             rule,
                             value,
                             callback,
-                            { id: fields.id, phone: value },
+                            { id: fields.id, phone: value.trim() },
                             '已存在手机号',
                           );
+                        } else {
+                          callback();
                         }
-                        callback();
                       },
                     },
                   ],
                 })(<Input autoComplete="off" placeholder="请输入手机号" />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="身份证">
-                {getFieldDecorator('info.idCard', {
-                  initialValue: fields.phone,
+                {getFieldDecorator('idCard', {
+                  initialValue: fields.idCard,
                   validateTrigger: ['onFocus', 'onBlur'],
                   rules: [
                     {
@@ -341,7 +357,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                         if (value) {
                           const mailReg = /^1\d{10}$/;
                           if (!mailReg.test(value)) {
-                            callback('请输入正确的手机号');
+                            callback('请输入正确的身份证号');
                             return;
                           }
                           this.validation(
@@ -351,8 +367,9 @@ class UserForm extends React.PureComponent<UserFormProps> {
                             { id: fields.id, idCard: value },
                             '已存在身份证号',
                           );
+                        } else {
+                          callback();
                         }
-                        callback();
                       },
                     },
                   ],

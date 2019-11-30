@@ -110,7 +110,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
         }
         return (
           <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} key={text}>
-            {record.username && record.username.substring(0, 1)}
+            {record.username && record.username.substring(0, 1).toLocaleUpperCase()}
           </Avatar>
         );
       },
@@ -129,11 +129,13 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '手机',
       dataIndex: 'phone',
       align: 'center',
+      render: text => text || <>-</>,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       align: 'center',
+      render: text => text || <>-</>,
     },
     {
       title: '组织',
@@ -385,7 +387,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
         <PageHeaderWrapper content={formatMessage({ id: 'user.content.description' })}>
           <Row gutter={8}>
             {/* 左侧机构树 */}
-            <Col span={5} md={4} sm={24}>
+            <Col md={4} sm={24}>
               <OrgSearchTree
                 placeholder="请输入组织名称"
                 searchValue=""
@@ -398,7 +400,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
               />
             </Col>
             {/* 右侧列表 */}
-            <Col span={19} md={20} sm={24}>
+            <Col md={20} sm={24}>
               <Card bordered={false}>
                 {/* 搜索框 */}
                 {this.searchForm()}

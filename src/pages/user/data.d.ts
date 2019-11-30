@@ -49,6 +49,7 @@ export interface FormItemFields {
   nickName?: string;
   email?: string;
   phone?: string;
+  idCard?: string;
   status?: UserStatus;
   remarks?: number;
   // 角色

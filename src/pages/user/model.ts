@@ -126,7 +126,7 @@ const UserModel: ModelType = {
       if (response.status === Status.SUCCESS) {
         message.success(response.message);
         // 刷新数据
-        yield put({ type: 'fetch' });
+        yield put({ type: 'fetch', payload: { sorter: 'lastModifiedTime', asc: false } });
         callback();
       }
     },
