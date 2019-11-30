@@ -523,7 +523,7 @@ class ItemForm extends React.Component<dictFormProps, dictFormState> {
                 <TextArea
                   autoComplete="off"
                   placeholder="请输入备注信息"
-                  autoSize={{ minRows: 3, maxRows: 5 }}
+                  autoSize={{ minRows: 3}}
                 />,
               )}
             </Form.Item>

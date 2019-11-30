@@ -16,7 +16,7 @@ export interface TableListItem {
   // 组织机构
   group?: OrgTableListItem;
   // 详情
-  info?: UserInfoItems;
+  headPortraitUrl?: string;
   username: string;
   type: string;
   status: number;
@@ -44,16 +44,15 @@ export interface FormItem {
 export interface FormItemFields {
   id?: string;
   username?: string;
-  type?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
   status?: UserStatus;
   remarks?: number;
   // 角色
   roles?: RoleTableListItem[];
   // 组织机构
   group?: OrgTableListItem;
-  // 详情
-  info?: UserInfoItems;
-  lastLoginTime?: Date;
 }
 // 用户详情
 export interface UserInfoItems {

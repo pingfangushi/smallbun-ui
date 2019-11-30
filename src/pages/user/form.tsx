@@ -263,13 +263,13 @@ class UserForm extends React.PureComponent<UserFormProps> {
           <Row>
             <Col span={12}>
               <Form.Item {...formItemLayout} label="姓名">
-                {getFieldDecorator('info.name', {
-                  initialValue: fields.info && fields.info.name,
+                {getFieldDecorator('name', {
+                  initialValue: fields.name,
                 })(<Input autoComplete="off" placeholder="请输入用户姓名" />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="邮箱">
-                {getFieldDecorator('info.email', {
-                  initialValue: fields.info && fields.info.email,
+                {getFieldDecorator('email', {
+                  initialValue: fields.email,
                   validateTrigger: ['onFocus', 'onBlur'],
                   rules: [
                     {
@@ -297,8 +297,8 @@ class UserForm extends React.PureComponent<UserFormProps> {
             </Col>
             <Col span={12}>
               <Form.Item {...formItemLayout} label="手机">
-                {getFieldDecorator('info.phone', {
-                  initialValue: fields.info && fields.info.phone,
+                {getFieldDecorator('phone', {
+                  initialValue: fields.phone,
                   validateTrigger: ['onFocus', 'onBlur'],
                   rules: [
                     {
@@ -325,7 +325,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
               </Form.Item>
               <Form.Item {...formItemLayout} label="身份证">
                 {getFieldDecorator('info.idCard', {
-                  initialValue: fields.info && fields.info.phone,
+                  initialValue: fields.phone,
                   validateTrigger: ['onFocus', 'onBlur'],
                   rules: [
                     {

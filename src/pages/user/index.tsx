@@ -13,13 +13,13 @@ import {
   Icon,
   Modal,
   Dropdown,
+  Avatar,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { Dispatch, Action } from 'redux';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
-import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
 import UserForm from './form';
 import UserDetails from './details';
@@ -53,8 +53,8 @@ interface TableListProps extends FormComponentProps {
       | 'users/details'
       | 'users/updateStatus'
       | 'users/updatePassword'
-      >
-    >;
+    >
+  >;
   role: RoleStateType;
   users: StateType;
 }
@@ -100,13 +100,34 @@ class Index extends PureComponent<TableListProps, TableListState> {
       align: 'center',
     },
     {
+      title: '头像',
+      dataIndex: 'username',
+      align: 'center',
+      render: (text, record) => {
+        if (record.headPortraitUrl) {
+          return <Avatar src={record.headPortraitUrl} key={text}/>;
+        }
+        return <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{text.substring(0, 1)}</Avatar>;
+      },
+    },
+    {
       title: '姓名',
-      dataIndex: 'info.name',
+      dataIndex: 'name',
+      align: 'center',
+    },
+    {
+      title: '昵称',
+      dataIndex: 'nickName',
       align: 'center',
     },
     {
       title: '手机',
-      dataIndex: 'info.phone',
+      dataIndex: 'phone',
+      align: 'center',
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
       align: 'center',
     },
     {
@@ -120,13 +141,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
       align: 'center',
       sorter: true,
       render: text => text,
-    },
-    {
-      title: '上次登录时间',
-      dataIndex: 'lastLoginTime',
-      sorter: true,
-      align: 'center',
-      render: (val: string) => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',

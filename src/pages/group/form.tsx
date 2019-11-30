@@ -117,7 +117,7 @@ class OrgForm extends React.Component<OrgFormProps> {
     return (
       <Modal
         title={title}
-        width={620}
+        width={610}
         destroyOnClose
         maskClosable={false}
         onCancel={this.onClose}
@@ -135,7 +135,7 @@ class OrgForm extends React.Component<OrgFormProps> {
         <Form
           layout="horizontal"
           labelCol={{ span: 3 }}
-          wrapperCol={{ span: 21 }}
+          wrapperCol={{ span: 20 }}
           onSubmit={this.handleSubmit}
         >
           {getFieldDecorator('id', {
