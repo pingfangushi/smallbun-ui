@@ -14,6 +14,7 @@ import {
   Modal,
   Dropdown,
   Avatar,
+  Tag,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { Dispatch, Action } from 'redux';
@@ -101,13 +102,17 @@ class Index extends PureComponent<TableListProps, TableListState> {
     },
     {
       title: '头像',
-      dataIndex: 'username',
+      dataIndex: 'headPortraitUrl',
       align: 'center',
       render: (text, record) => {
         if (record.headPortraitUrl) {
-          return <Avatar src={record.headPortraitUrl} key={text}/>;
+          return <Avatar src={record.headPortraitUrl} key={text} />;
         }
-        return <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{text.substring(0, 1)}</Avatar>;
+        return (
+          <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} key={text}>
+            {record.username && record.username.substring(0, 1)}
+          </Avatar>
+        );
       },
     },
     {
@@ -140,7 +145,18 @@ class Index extends PureComponent<TableListProps, TableListState> {
       dataIndex: 'status',
       align: 'center',
       sorter: true,
-      render: text => text,
+      render: text => {
+        if (text === UserStatus.ENABLE) {
+          return <Tag color="green">启用</Tag>;
+        }
+        if (text === UserStatus.DISABLE) {
+          return <Tag color="volcano">禁用</Tag>;
+        }
+        if (text === UserStatus.FREEZE) {
+          return <Tag color="red">冻结</Tag>;
+        }
+        return <></>;
+      },
     },
     {
       title: '操作',

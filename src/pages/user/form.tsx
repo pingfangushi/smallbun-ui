@@ -189,22 +189,36 @@ class UserForm extends React.PureComponent<UserFormProps> {
                   ],
                 })(<Input autoComplete="off" placeholder="请输入用户名" />)}
               </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label="角色"
-              >
+              <Form.Item {...formItemLayout} label="角色">
                 {getFieldDecorator('roleIds', {
                   rules: [{ required: true, message: '请为用户分配角色' }],
                   initialValue: fields.roles && fields.roles.map(i => i.id),
                 })(
                   <Select showSearch placeholder="请为用户分配角色" allowClear mode="multiple">
                     {roles &&
-                    roles.map(value => (
-                      <Option key={value.id} value={value.id}>
-                        {value.name}
-                      </Option>
-                    ))}
+                      roles.map(value => (
+                        <Option key={value.id} value={value.id}>
+                          {value.name}
+                        </Option>
+                      ))}
                   </Select>,
+                )}
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="状态">
+                {getFieldDecorator('status', {
+                  initialValue: fields.status || UserStatus.ENABLE,
+                })(
+                  <RadioGroup name="status">
+                    <Radio key={UserStatus.ENABLE} value={UserStatus.ENABLE}>
+                      正常
+                    </Radio>
+                    <Radio key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
+                      禁用
+                    </Radio>
+                    <Radio key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
+                      冻结
+                    </Radio>
+                  </RadioGroup>,
                 )}
               </Form.Item>
             </Col>
@@ -212,6 +226,17 @@ class UserForm extends React.PureComponent<UserFormProps> {
               {getFieldDecorator('groupId', {
                 initialValue: fields.group && fields.group.id,
               })(<Input type="hidden" />)}
+              <Form.Item {...formItemLayout} label="昵称">
+                {getFieldDecorator('nickName', {
+                  initialValue: fields.nickName,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入用户昵称',
+                    },
+                  ],
+                })(<Input autoComplete="off" placeholder="请输入用户昵称" />)}
+              </Form.Item>
               <Form.Item {...formItemLayout} label="组织">
                 {getFieldDecorator('groupTreeSelect', {
                   initialValue:
@@ -238,23 +263,6 @@ class UserForm extends React.PureComponent<UserFormProps> {
                       form.setFieldsValue({ groupId: extra.triggerNode.props.id });
                     }}
                   />,
-                )}
-              </Form.Item>
-              <Form.Item {...formItemLayout} label="状态">
-                {getFieldDecorator('status', {
-                  initialValue: fields.status || UserStatus.ENABLE,
-                })(
-                  <RadioGroup name="status">
-                    <Radio key={UserStatus.ENABLE} value={UserStatus.ENABLE}>
-                      正常
-                    </Radio>
-                    <Radio key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
-                      禁用
-                    </Radio>
-                    <Radio key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
-                      冻结
-                    </Radio>
-                  </RadioGroup>,
                 )}
               </Form.Item>
             </Col>

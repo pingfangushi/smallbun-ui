@@ -17,6 +17,7 @@ export interface TableListItem {
   group?: OrgTableListItem;
   // 详情
   headPortraitUrl?: string;
+  nickName?: string;
   username: string;
   type: string;
   status: number;
@@ -45,6 +46,7 @@ export interface FormItemFields {
   id?: string;
   username?: string;
   name?: string;
+  nickName?: string;
   email?: string;
   phone?: string;
   status?: UserStatus;
