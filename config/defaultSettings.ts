@@ -43,7 +43,7 @@ export interface DefaultSettings {
 }
 
 export default {
-  navTheme: 'dark',
+  navTheme: 'light',
   // 拂晓蓝
   primaryColor: 'daybreak',
   layout: 'sidemenu',

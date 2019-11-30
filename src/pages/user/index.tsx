@@ -15,6 +15,7 @@ import {
   Dropdown,
   Avatar,
   Tag,
+  TreeSelect,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { Dispatch, Action } from 'redux';
@@ -28,11 +29,11 @@ import { StateType as RoleStateType } from '@/pages/role/model';
 import styles from './style.less';
 import StandardTable from '@/components/StandardTable';
 import { TableListItem } from './data.d';
-import OrgSearchTree from '../group/tree';
 import { Add, Remove, Update } from '@/components/OpenButton';
 import { Open } from '@/pages/typings';
 import Authorized from '@/components/Authorized/Authorized';
 import { UserStatus } from '@/pages/user/typings';
+import { StateType as GroupStateType } from '@/pages/group/model';
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -46,6 +47,7 @@ interface TableListProps extends FormComponentProps {
   loading: boolean;
   dispatch: Dispatch<
     Action<
+      | 'group/tree'
       | 'users/form'
       | 'users/fetch'
       | 'users/remove'
@@ -57,6 +59,7 @@ interface TableListProps extends FormComponentProps {
   >;
   role: RoleStateType;
   users: StateType;
+  group: GroupStateType;
 }
 
 /**
@@ -72,8 +75,17 @@ interface TableListState {
 }
 
 @connect(
-  ({ users, loading }: { users: StateType; loading: { effects: { [key: string]: boolean } } }) => ({
+  ({
     users,
+    group,
+    loading,
+  }: {
+    users: StateType;
+    group: GroupStateType;
+    loading: { effects: { [key: string]: boolean } };
+  }) => ({
+    users,
+    group,
     loading: loading.effects['users/fetch'],
   }),
 )
@@ -98,13 +110,11 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '账号',
       dataIndex: 'username',
       align: 'center',
-      width: 150,
     },
     {
       title: '头像',
       dataIndex: 'headPortraitUrl',
       align: 'center',
-      width: 100,
       render: (text, record) => {
         if (record.headPortraitUrl) {
           return <Avatar src={record.headPortraitUrl} key={text} />;
@@ -120,46 +130,39 @@ class Index extends PureComponent<TableListProps, TableListState> {
       title: '姓名',
       dataIndex: 'name',
       align: 'center',
-      width: 100,
     },
     {
       title: '昵称',
       dataIndex: 'nickName',
       align: 'center',
-      width: 100,
     },
     {
       title: '手机',
       dataIndex: 'phone',
       align: 'center',
-      width: 150,
       render: text => text || <>-</>,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       align: 'center',
-      width: 200,
       render: text => text || <>-</>,
     },
     {
       title: '身份证',
       dataIndex: 'idCard',
       align: 'center',
-      width: 200,
       render: text => text || <>-</>,
     },
     {
       title: '组织',
       dataIndex: 'group.name',
       align: 'center',
-      width: 100,
     },
     {
       title: '状态',
       dataIndex: 'status',
       align: 'center',
-      width: 150,
       sorter: true,
       render: text => {
         if (text === UserStatus.ENABLE) {
@@ -177,8 +180,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
     {
       title: '操作',
       align: 'center',
-      fixed: 'right',
-      width: 130,
       render: text => (
         <Fragment>
           <Popconfirm
@@ -228,7 +229,11 @@ class Index extends PureComponent<TableListProps, TableListState> {
    * componentDidMount
    */
   componentDidMount() {
+    const { dispatch } = this.props;
     this.fetch({ sorter: 'lastModifiedTime', asc: false });
+    dispatch({
+      type: 'group/tree',
+    });
   }
 
   /**
@@ -310,19 +315,20 @@ class Index extends PureComponent<TableListProps, TableListState> {
   searchForm = () => {
     const {
       form: { getFieldDecorator },
+      group: { tree },
     } = this.props;
     return (
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            <Col span={8} xs={8} md={8} sm={24}>
+            <Col span={6} xs={6} md={6} sm={24}>
               <FormItem label="用户名">
                 {getFieldDecorator('username')(
                   <Input autoComplete="off" allowClear placeholder="请输入用户名" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={8} xs={8} md={8} sm={24}>
+            <Col span={6} xs={6} md={6} sm={24}>
               <FormItem label="用户状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择用户状态" allowClear style={{ width: '100%' }}>
@@ -339,7 +345,26 @@ class Index extends PureComponent<TableListProps, TableListState> {
                 )}
               </FormItem>
             </Col>
-            <Col span={8} xs={8} md={8} sm={24}>
+            <Col span={6} xs={6} md={6} sm={24}>
+              <Form.Item label="组织">
+                {getFieldDecorator('groupId')(
+                  <TreeSelect<string>
+                    showSearch
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    placeholder="请选择归属组织"
+                    treeDefaultExpandAll
+                    treeNodeFilterProp="title"
+                    treeData={tree}
+                    autoClearSearchValue
+                    onChange={(value, label, extra) => {
+                      const { form } = this.props;
+                      form.setFieldsValue({ groupId: extra.triggerNode.props.id });
+                    }}
+                  />,
+                )}
+              </Form.Item>
+            </Col>
+            <Col span={6} xs={6} md={6} sm={24}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询
@@ -355,15 +380,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
     );
   };
 
-  /**
-   * onSelect
-   */
-  onSelect = (selectedKeys: string[]) => {
-    const { form } = this.props;
-    this.fetch({ groupId: selectedKeys });
-    this.setState({ selectedRows: [] });
-    form.resetFields();
-  };
 
   handleSelectRows = (rows: TableListItem[]) => {
     this.setState({
@@ -384,55 +400,36 @@ class Index extends PureComponent<TableListProps, TableListState> {
       <div>
         {/* 内容区域 */}
         <PageHeaderWrapper content={formatMessage({ id: 'user.content.description' })}>
-          <Row gutter={8}>
-            {/* 左侧机构树 */}
-            <Col md={4} sm={24}>
-              <OrgSearchTree
-                placeholder="请输入组织名称"
-                searchValue=""
-                title="组织机构"
-                onSelect={(value: string[], e: any) => {
-                  const nodes: string[] = e.node.getNodeChildren().map((i: any) => i.key);
-                  nodes.unshift(...value);
-                  this.onSelect(nodes);
-                }}
-              />
-            </Col>
-            {/* 右侧列表 */}
-            <Col md={20} sm={24}>
-              <Card bordered={false}>
-                {/* 搜索框 */}
-                {this.searchForm()}
-                {/* 操作按钮栏 */}
-                <Add onClick={this.addOnClick} authority="manage:operate:user:add" />
-                <Update
-                  onClick={() => {
-                    this.updateOnClick(this.state.selectedRows.map(i => i.id)[0]);
-                  }}
-                  selectedRows={selectedRows}
-                  authority="manage:operate:user:update"
-                />
-                <Remove
-                  onClick={() => {
-                    this.removeOnClick(this.state.selectedRows.map((i: any) => i.id));
-                  }}
-                  selectedRows={selectedRows}
-                  authority="manage:operate:user:remove"
-                />
-                {/* 表格 */}
-                <StandardTable<TableListItem>
-                  data={list}
-                  rowKey={record => `${record.id}`}
-                  fetch={this.fetch}
-                  columns={this.columns}
-                  loading={loading}
-                  selectedRows={selectedRows}
-                  onSelectRow={this.handleSelectRows}
-                  scroll={{ x: 1300 }}
-                />
-              </Card>
-            </Col>
-          </Row>
+          <Card bordered={false}>
+            {/* 搜索框 */}
+            {this.searchForm()}
+            {/* 操作按钮栏 */}
+            <Add onClick={this.addOnClick} authority="manage:operate:user:add" />
+            <Update
+              onClick={() => {
+                this.updateOnClick(this.state.selectedRows.map(i => i.id)[0]);
+              }}
+              selectedRows={selectedRows}
+              authority="manage:operate:user:update"
+            />
+            <Remove
+              onClick={() => {
+                this.removeOnClick(this.state.selectedRows.map((i: any) => i.id));
+              }}
+              selectedRows={selectedRows}
+              authority="manage:operate:user:remove"
+            />
+            {/* 表格 */}
+            <StandardTable<TableListItem>
+              data={list}
+              rowKey={record => `${record.id}`}
+              fetch={this.fetch}
+              columns={this.columns}
+              loading={loading}
+              selectedRows={selectedRows}
+              onSelectRow={this.handleSelectRows}
+            />
+          </Card>
         </PageHeaderWrapper>
         <UserForm />
         <SetPassWord
