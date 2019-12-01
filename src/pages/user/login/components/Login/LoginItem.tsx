@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Col, Form, Input, Row } from 'antd';
 import React, { Component } from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { GetFieldDecoratorOptions } from 'antd/es/form/Form';
@@ -53,13 +53,6 @@ class WrapFormItem extends Component<LoginItemProps, LoginItemState> {
     getCaptchaSecondText: 'second',
   };
 
-  constructor(props: LoginItemProps) {
-    super(props);
-    this.state = {
-      count: 0,
-    };
-  }
-
   componentDidMount() {
     const { updateActive, name = '' } = this.props;
     if (updateActive) {
@@ -101,22 +94,9 @@ class WrapFormItem extends Component<LoginItemProps, LoginItemState> {
     return options;
   };
 
-  runGetCaptchaCountDown = () => {
-    const { countDown } = this.props;
-    let count = countDown || 59;
-    this.setState({ count });
-    this.interval = window.setInterval(() => {
-      count -= 1;
-      this.setState({ count });
-      if (count === 0) {
-        clearInterval(this.interval);
-      }
-    }, 1000);
-  };
+  runGetCaptchaCountDown = () => {};
 
   render() {
-    const { count } = this.state;
-
     // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props tabUtil
     const {
       onChange,
