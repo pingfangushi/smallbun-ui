@@ -9,6 +9,7 @@ import SelectLang from '@/components/SelectLang';
 import { ConnectProps, ConnectState } from '@/models/connect';
 import logo from '../assets/logo.svg';
 import styles from './UserLayout.less';
+import { Icon } from 'antd';
 
 export interface UserLayoutProps extends ConnectProps {
   breadcrumbNameMap: { [path: string]: MenuDataItem };
@@ -50,14 +51,36 @@ const UserLayout: React.SFC<UserLayoutProps> = props => {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <span className={styles.title}>SmallBun</span>
               </Link>
             </div>
-            <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+            <div className={styles.desc}>SmallBun 大明湖畔最好的企业级开发脚手架</div>
           </div>
           {children}
         </div>
-        <DefaultFooter />
+        <DefaultFooter
+          copyright="2019 SmallBun 企业级开发脚手架"
+          links={[
+            {
+              key: '官网',
+              title: '官网',
+              href: 'https://pro.ant.design',
+              blankTarget: true,
+            },
+            {
+              key: 'github',
+              title: <Icon type="github" />,
+              href: 'https://github.com/ant-design/ant-design-pro',
+              blankTarget: true,
+            },
+            {
+              key: '文档',
+              title: '文档',
+              href: 'https://ant.design',
+              blankTarget: true,
+            },
+          ]}
+        />
       </div>
     </>
   );
