@@ -162,7 +162,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
           <Divider title="基础信息" />
           <Row>
-            <Col span={12} xs={24}>
+            <Col span={12} xs={24} md={12}>
               {getFieldDecorator('id', {
                 initialValue: fields.id,
               })(<Input type="hidden" />)}
@@ -192,13 +192,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                       },
                     },
                   ],
-                })(
-                  open === Open.ADD ? (
-                    <Input autoComplete="off" placeholder="请输入用户名" />
-                  ) : (
-                    <span>{fields.username}</span>
-                  ),
-                )}
+                })(<Input autoComplete="off" placeholder="请输入用户名" readOnly={open === Open.UPDATE} />)}
               </Form.Item>
               <Form.Item {...formItemLayout} label="角色">
                 {getFieldDecorator('roleIds', {
@@ -233,7 +227,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 )}
               </Form.Item>
             </Col>
-            <Col span={12} xs={24}>
+            <Col span={12} xs={24} md={12}>
               <Form.Item {...formItemLayout} label="昵称">
                 {getFieldDecorator('nickName', {
                   initialValue: fields.nickName,
@@ -277,7 +271,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
           </Row>
           <Divider title="详细信息" />
           <Row>
-            <Col span={12} xs={24}>
+            <Col span={12} xs={24} md={12}>
               <Form.Item {...formItemLayout} label="姓名">
                 {getFieldDecorator('name', {
                   initialValue: fields.name,
@@ -318,7 +312,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 })(<Input autoComplete="off" placeholder="请输入用户邮箱" />)}
               </Form.Item>
             </Col>
-            <Col span={12} xs={24}>
+            <Col span={12} xs={24} md={12}>
               <Form.Item {...formItemLayout} label="手机">
                 {getFieldDecorator('phone', {
                   initialValue: fields.phone,
