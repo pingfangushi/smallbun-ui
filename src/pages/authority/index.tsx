@@ -240,14 +240,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={style.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            <Col span={8} xs={8} md={8} sm={24}>
+           <Col xs={24} sm={24} md={6}>
               <FormItem label="业务名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" allowClear placeholder="请输入业务名称" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={8} xs={8} md={8} sm={24}>
+           <Col xs={24} sm={24} md={6}>
               <span className={style.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

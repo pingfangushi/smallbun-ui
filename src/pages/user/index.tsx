@@ -182,28 +182,30 @@ class Index extends PureComponent<TableListProps, TableListState> {
       align: 'center',
       render: text => (
         <Fragment>
-          <Popconfirm
-            className={styles.openButton}
-            style={{ marginLeft: 70, clear: 'both', whiteSpace: 'nowrap' }}
-            title={formatMessage({ id: 'del.confirm.title' })}
-            placement="bottomLeft"
-            onConfirm={() => {
-              this.removeOnClick([text.id]);
-            }}
-            icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-          >
-            <a>{formatMessage({ id: 'del.name' })}</a>
+          <Authorized authority="manage:operate:user:update" noMatch={<></>}>
+            <a onClick={this.updateOnClick.bind(this, text.id)}>
+              {formatMessage({ id: 'edit.name' })}
+            </a>
             <Divider type="vertical" />
-          </Popconfirm>
+          </Authorized>
           <Dropdown
             placement="bottomCenter"
             overlay={
               <Menu>
-                <Menu.Item key="2">
-                  <Authorized authority="manage:operate:user:update" noMatch={<></>}>
-                    <a onClick={this.updateOnClick.bind(this, text.id)}>
-                      {formatMessage({ id: 'edit.name' })}
-                    </a>
+                <Menu.Item key="1">
+                  <Authorized authority="manage:operate:user:remove" noMatch={<></>}>
+                    <Popconfirm
+                      className={styles.openButton}
+                      style={{ marginLeft: 70, clear: 'both', whiteSpace: 'nowrap' }}
+                      title={formatMessage({ id: 'del.confirm.title' })}
+                      placement="bottomLeft"
+                      onConfirm={() => {
+                        this.removeOnClick([text.id]);
+                      }}
+                      icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                    >
+                      <a>{formatMessage({ id: 'del.name' })}</a>
+                    </Popconfirm>
                   </Authorized>
                 </Menu.Item>
                 <Menu.Item key="3">
@@ -321,15 +323,15 @@ class Index extends PureComponent<TableListProps, TableListState> {
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            <Col span={6} xs={6} md={6} sm={24}>
-              <FormItem label="用户名">
+            <Col xs={24} sm={24} md={6}>
+              <FormItem label="账户">
                 {getFieldDecorator('username')(
                   <Input autoComplete="off" allowClear placeholder="请输入用户名" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={6} xs={6} md={6} sm={24}>
-              <FormItem label="用户状态">
+            <Col xs={24} sm={24} md={6}>
+              <FormItem label="状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择用户状态" allowClear style={{ width: '100%' }}>
                     <Option key={UserStatus.ENABLE} value={UserStatus.ENABLE}>
@@ -345,7 +347,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
                 )}
               </FormItem>
             </Col>
-            <Col span={6} xs={6} md={6} sm={24}>
+            <Col xs={24} sm={24} md={6}>
               <Form.Item label="组织">
                 {getFieldDecorator('groupId')(
                   <TreeSelect<string>
@@ -364,7 +366,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
                 )}
               </Form.Item>
             </Col>
-            <Col span={6} xs={6} md={6} sm={24}>
+            <Col xs={24} sm={24} md={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

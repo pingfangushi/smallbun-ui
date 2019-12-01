@@ -266,14 +266,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            <Col span={8} xs={8} md={8} sm={24}>
+           <Col xs={24} sm={24} md={6}>
               <FormItem label="角色名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" allowClear placeholder="请输入角色名称" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={8} xs={8} md={8} sm={24}>
+           <Col xs={24} sm={24} md={6}>
               <FormItem label="角色状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择角色状态" allowClear style={{ width: '100%' }}>
@@ -287,7 +287,7 @@ class Index extends React.Component<TableListProps, TableListState> {
                 )}
               </FormItem>
             </Col>
-            <Col span={8} xs={8} md={8} sm={24}>
+           <Col xs={24} sm={24} md={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   {formatMessage({ id: 'search.inquire' })}

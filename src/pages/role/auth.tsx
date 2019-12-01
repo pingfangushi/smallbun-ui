@@ -1,4 +1,4 @@
-import { Alert, Drawer, Form, Table, Tabs } from 'antd';
+import { Alert, Drawer, Form, Table, Tabs, Row, Col } from 'antd';
 import * as React from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { Action, Dispatch } from 'redux';
@@ -105,29 +105,33 @@ class RoleAuthorize extends React.PureComponent<RoleAuthorizeProps> {
     } = this.props;
     return (
       <Drawer title="角色授权" width={850} onClose={this.onClose} visible={visible}>
-        <Alert
-          style={{ marginBottom: '20px' }}
-          message="为路由、操作、接口进行授权，实现细粒度权限控制。"
-          type="info"
-        />
-        <Tabs defaultActiveKey="1" tabPosition="left" size="small" style={{ height: 800 }}>
-          {items.map(i => (
-            <TabPane tab={`${i.name}`} key={`${i.id}`}>
-              {/* 权限内容 */}
-              <Tabs tabPosition="top" defaultActiveKey="1" type="card">
-                <TabPane tab="路由权限" key="1">
-                  {i.routes && this.table(i.routes, id, i.id, AuthorityType.ROUTE)}
+        <Row>
+          <Col span={24} xs={24}>
+            <Alert
+              style={{ marginBottom: '20px' }}
+              message="为路由、操作、接口进行授权，实现细粒度权限控制。"
+              type="info"
+            />
+            <Tabs defaultActiveKey="1" tabPosition="left" size="small" style={{ height: 800 }}>
+              {items.map(i => (
+                <TabPane tab={`${i.name}`} key={`${i.id}`}>
+                  {/* 权限内容 */}
+                  <Tabs tabPosition="top" defaultActiveKey="1" type="card">
+                    <TabPane tab="路由权限" key="1">
+                      {i.routes && this.table(i.routes, id, i.id, AuthorityType.ROUTE)}
+                    </TabPane>
+                    <TabPane tab="操作权限" key="2">
+                      {i.operates && this.table(i.operates, id, i.id, AuthorityType.OPERATE)}
+                    </TabPane>
+                    <TabPane tab="接口权限" key="3">
+                      {i.interfaces && this.table(i.interfaces, id, i.id, AuthorityType.INTERFACE)}
+                    </TabPane>
+                  </Tabs>
                 </TabPane>
-                <TabPane tab="操作权限" key="2">
-                  {i.operates && this.table(i.operates, id, i.id, AuthorityType.OPERATE)}
-                </TabPane>
-                <TabPane tab="接口权限" key="3">
-                  {i.interfaces && this.table(i.interfaces, id, i.id, AuthorityType.INTERFACE)}
-                </TabPane>
-              </Tabs>
-            </TabPane>
-          ))}
-        </Tabs>
+              ))}
+            </Tabs>
+          </Col>
+        </Row>
       </Drawer>
     );
   }

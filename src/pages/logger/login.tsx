@@ -146,14 +146,14 @@ class LoginLogger extends React.Component<LoginTableListProps, LoginTableListSta
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
-            <Col span={6} xs={6} lg={8} md={8} sm={24}>
+            <Col xs={24} sm={24} md={6}>
               <FormItem label="用户">
                 {getFieldDecorator('user')(
                   <Input autoComplete="off" allowClear placeholder="请输入用户名" />,
                 )}
               </FormItem>
             </Col>
-            <Col span={6} xs={6} lg={8} md={8} sm={24}>
+            <Col xs={24} sm={24} md={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

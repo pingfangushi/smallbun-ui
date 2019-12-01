@@ -28,10 +28,10 @@ export interface UserFormProps extends FormComponentProps {
 // formItem布局
 const formItemLayout = {
   labelCol: {
-    md: { span: 4 },
+    md: { span: 4, xs: 24 },
   },
   wrapperCol: {
-    md: { span: 20 },
+    md: { span: 20, xs: 24 },
   },
 };
 
@@ -162,7 +162,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
           <Divider title="基础信息" />
           <Row>
-            <Col span={12}>
+            <Col span={12} xs={24}>
               {getFieldDecorator('id', {
                 initialValue: fields.id,
               })(<Input type="hidden" />)}
@@ -233,7 +233,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 )}
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={12} xs={24}>
               <Form.Item {...formItemLayout} label="昵称">
                 {getFieldDecorator('nickName', {
                   initialValue: fields.nickName,
@@ -277,7 +277,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
           </Row>
           <Divider title="详细信息" />
           <Row>
-            <Col span={12}>
+            <Col span={12} xs={24}>
               <Form.Item {...formItemLayout} label="姓名">
                 {getFieldDecorator('name', {
                   initialValue: fields.name,
@@ -318,7 +318,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                 })(<Input autoComplete="off" placeholder="请输入用户邮箱" />)}
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={12} xs={24}>
               <Form.Item {...formItemLayout} label="手机">
                 {getFieldDecorator('phone', {
                   initialValue: fields.phone,
