@@ -1,6 +1,7 @@
 export default {
   'user-login.login.userName': '请输入用户名',
   'user-login.login.password': '请输入密码',
+  'user-login.login.captcha': '请输入验证码',
   'user-login.login.message-invalid-credentials': '账户或密码错误',
   'user-login.login.message-invalid-verification-code': '验证码错误',
   'user-login.login.tab-login-credentials': '账户密码登录',

@@ -3,10 +3,11 @@ import { routerRedux } from 'dva/router';
 import { Effect } from 'dva';
 import { stringify } from 'querystring';
 
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/login';
+import { fakeAccountLogin, getImageCaptcha, getPublicSecret } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { Result, Status } from '@/pages/typings';
+import { notification } from 'antd';
 
 export interface StateType {
   status?: 'ok' | 'error';
@@ -19,7 +20,8 @@ export interface LoginModelType {
   state: StateType;
   effects: {
     login: Effect;
-    getCaptcha: Effect;
+    getImageCaptcha: Effect;
+    getPublicSecret: Effect;
     logout: Effect;
   };
   reducers: {
@@ -62,8 +64,33 @@ const Model: LoginModelType = {
       }
     },
 
-    *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
+    *getImageCaptcha({ payload, callback }, { call }) {
+      const response: Result<any> = yield call(getImageCaptcha, payload);
+      if (response.status === Status.SUCCESS) {
+        if (callback && callback instanceof Function) {
+          callback(response.result);
+        }
+        return;
+      }
+      notification.warn({
+        placement: 'topRight',
+        message: '提示',
+        description: response.message,
+      });
+    },
+    *getPublicSecret({ payload, callback }, { call }) {
+      const response: Result<any> = yield call(getPublicSecret, payload);
+      if (response.status === Status.SUCCESS) {
+        if (callback && callback instanceof Function) {
+          callback(response.result);
+        }
+        return;
+      }
+      notification.warn({
+        placement: 'topRight',
+        message: '提示',
+        description: response.message,
+      });
     },
     *logout(_, { put }) {
       const { redirect } = getPageQuery();

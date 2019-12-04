@@ -62,62 +62,51 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
       title: '模块',
       dataIndex: 'module',
       align: 'center',
-      width: 200,
     },
     {
       title: '功能',
       dataIndex: 'feature',
       align: 'center',
-      width: 200,
     },
     {
       title: '浏览器',
       dataIndex: 'browser',
       align: 'center',
-      width: 120,
     },
     {
       title: '平台',
       dataIndex: 'platform',
       align: 'center',
-      width: 150,
     },
     {
       title: 'IP',
       dataIndex: 'ip',
       align: 'center',
-      width: 150,
     },
     {
       title: '地点',
       dataIndex: 'location',
       align: 'center',
-      width: 150,
     },
     {
       title: '系统',
       dataIndex: 'os',
       align: 'center',
-      width: 150,
     },
     {
       title: '用户',
       dataIndex: 'user',
       align: 'center',
-      width: 100,
     },
     {
       title: '时间',
       dataIndex: 'time',
       align: 'center',
       sorter: true,
-      width: 250,
     },
     {
       title: '操作',
       align: 'center',
-      fixed: 'right',
-      width: 50,
       render: text => (
         <Fragment>
           <a
@@ -189,14 +178,14 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={6}>
               <FormItem label="用户">
                 {getFieldDecorator('user')(
                   <Input autoComplete="off" allowClear placeholder="请输入操作用户名" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={6}>
               <FormItem label="平台">
                 {getFieldDecorator('platform')(
                   <Select placeholder="请选择来源平台" allowClear style={{ width: '100%' }}>
@@ -210,7 +199,7 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询
@@ -252,7 +241,6 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
             loading={loading}
             prompt={false}
             rowSelection={undefined}
-            scroll={{ x: 1250 }}
           />
         </Card>
         <OperateDetailsModal />
