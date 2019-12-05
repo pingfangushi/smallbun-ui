@@ -91,7 +91,18 @@ class Login extends Component<LoginProps, LoginState> {
    */
   onGetCaptcha = () => {
     const { dispatch } = this.props;
-    // 获取验证码
+    const { imageCaptchaKey } = this.state;
+    if (imageCaptchaKey) {
+      // 获取验证码
+      dispatch({
+        type: 'login/getImageCaptcha',
+        payload: { key: imageCaptchaKey },
+        callback: (value: { image: string; key: string }) => {
+          this.setState({ imageCaptcha: value.image, imageCaptchaKey: value.key });
+        },
+      });
+      return;
+    }
     dispatch({
       type: 'login/getImageCaptcha',
       callback: (value: { image: string; key: string }) => {

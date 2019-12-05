@@ -16,8 +16,10 @@ export async function fakeAccountLogin(params: LoginParamsType) {
 /**
  * 获取图片验证码
  */
-export async function getImageCaptcha() {
-  return request('/api/image_captcha');
+export async function getImageCaptcha(params: {}) {
+  return request('/api/image_captcha', {
+    params,
+  });
 }
 
 /**
