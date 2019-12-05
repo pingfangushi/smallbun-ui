@@ -54,16 +54,15 @@ class Login extends Component<LoginProps, LoginState> {
       description: (
         <div>
           <img
-            src="https://smallbun.oss-cn-hangzhou.aliyuncs.com/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg"
+            src="https://smallbun.oss-cn-hangzhou.aliyuncs.com/liaojishu.jpg"
             alt=""
             style={{ height: '250px' }}
           />
-          <p>亲：关注公众号，回复口令，获取账号密码</p>
+          <p>关注公众号，回复口令，获取账号密码</p>
         </div>
       ),
       style: {
         width: 315,
-        marginLeft: 335 - 600,
       },
     });
   }
@@ -157,111 +156,99 @@ class Login extends Component<LoginProps, LoginState> {
     const { autoLogin } = this.state;
     return (
       <React.Fragment>
-        <Row>
-          <Col span={12} sm={12} push={6}>
-            <div className={styles.main}>
-              {status === 'error' &&
-                loginType === 'account' &&
-                !submitting &&
-                this.renderMessage(
-                  formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
-                )}
-              <Form className="login-form" onSubmit={this.handleSubmit}>
-                <Form.Item>
-                  {getFieldDecorator('userName', {
-                    rules: [
-                      {
-                        required: true,
-                        message: formatMessage({ id: 'user-login.userName.required' }),
-                      },
-                    ],
-                  })(
-                    <Input
-                      size="large"
-                      prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                      autoComplete="off"
-                      placeholder={`${formatMessage({ id: 'user-login.login.userName' })}`}
-                    />,
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('password', {
-                    rules: [
-                      {
-                        required: true,
-                        message: formatMessage({ id: 'user-login.password.required' }),
-                      },
-                    ],
-                  })(
-                    <Input
-                      size="large"
-                      prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                      type="password"
-                      autoComplete="off"
-                      placeholder={`${formatMessage({ id: 'user-login.login.password' })}`}
-                      onPressEnter={e => {
-                        e.preventDefault();
-                        if (this.loginForm) {
-                          this.loginForm.validateFields(this.handleSubmit);
-                        }
-                      }}
-                    />,
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  <Row gutter={8}>
-                    <Col span={16}>
-                      {getFieldDecorator('captcha', {
-                        rules: [
-                          {
-                            required: true,
-                            message: formatMessage({ id: 'user-login.phone-number.required' }),
-                          },
-                        ],
-                      })(
-                        <Input
-                          size="large"
-                          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                          autoComplete="off"
-                          placeholder={`${formatMessage({ id: 'user-login.login.captcha' })}`}
-                        />,
-                      )}
-                    </Col>
-                    <Col span={8}>
-                      <img
-                        className={styles.getCaptcha}
-                        onClick={this.onGetCaptcha}
-                        src={`data:image/png;base64,${this.state.imageCaptcha}`}
-                        alt=""
-                      />
-                    </Col>
-                  </Row>
-                </Form.Item>
-                <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-                  <FormattedMessage id="user-login.login.remember-me" />
-                </Checkbox>
-                <Button
-                  className="antd-pro-login-submit"
-                  type="primary"
+        <div className={styles.main}>
+          {status === 'error' &&
+            loginType === 'account' &&
+            !submitting &&
+            this.renderMessage(
+              formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
+            )}
+          <Form className="login-form" onSubmit={this.handleSubmit}>
+            <Form.Item>
+              {getFieldDecorator('userName', {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'user-login.userName.required' }),
+                  },
+                ],
+              })(
+                <Input
                   size="large"
-                  block
-                  loading={submitting}
-                  htmlType="submit"
-                >
-                  <FormattedMessage id="user-login.login.login" />
-                </Button>
-              </Form>
-            </div>
-          </Col>
-          <Col span={8} offset={3}>
-            {/* <img
-              src="https://smallbun.oss-cn-hangzhou.aliyuncs.com/donate/wechat.png"
-              alt=""
-              style={{ height: '250px' }}
-            />
-            <p>扫描二维码，关注公众号，回复登录口令，获取密码</p> */}
-          </Col>
-        </Row>
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  autoComplete="off"
+                  placeholder={`${formatMessage({ id: 'user-login.login.userName' })}`}
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('password', {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'user-login.password.required' }),
+                  },
+                ],
+              })(
+                <Input.Password
+                  size="large"
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type="password"
+                  autoComplete="off"
+                  placeholder={`${formatMessage({ id: 'user-login.login.password' })}`}
+                  onPressEnter={e => {
+                    e.preventDefault();
+                    if (this.loginForm) {
+                      this.loginForm.validateFields(this.handleSubmit);
+                    }
+                  }}
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Row gutter={8}>
+                <Col span={16}>
+                  {getFieldDecorator('captcha', {
+                    rules: [
+                      {
+                        required: true,
+                        message: formatMessage({ id: 'user-login.phone-number.required' }),
+                      },
+                    ],
+                  })(
+                    <Input
+                      size="large"
+                      prefix={<Icon type="safety" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      autoComplete="off"
+                      placeholder={`${formatMessage({ id: 'user-login.login.captcha' })}`}
+                    />,
+                  )}
+                </Col>
+                <Col span={8}>
+                  <img
+                    className={styles.getCaptcha}
+                    onClick={this.onGetCaptcha}
+                    src={`data:image/png;base64,${this.state.imageCaptcha}`}
+                    alt=""
+                  />
+                </Col>
+              </Row>
+            </Form.Item>
+            <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+              <FormattedMessage id="user-login.login.remember-me" />
+            </Checkbox>
+            <Button
+              className="antd-pro-login-submit"
+              type="primary"
+              size="large"
+              block
+              loading={submitting}
+              htmlType="submit"
+            >
+              <FormattedMessage id="user-login.login.login" />
+            </Button>
+          </Form>
+        </div>
       </React.Fragment>
     );
   }
