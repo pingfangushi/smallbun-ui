@@ -3,16 +3,15 @@ import { routerRedux } from 'dva/router';
 import { Effect } from 'dva';
 import { stringify } from 'querystring';
 
-import { fakeAccountLogin, getImageCaptcha, getPublicSecret } from '@/services/login';
+import { notification } from 'antd';
+import { accountLogin, getImageCaptcha, getPublicSecret } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { Result, Status } from '@/pages/typings';
-import { notification } from 'antd';
 
 export interface StateType {
-  status?: 'ok' | 'error';
-  type?: string;
-  currentAuthority?: 'user' | 'guest' | 'admin';
+  status?: 'ok' | 'error' | '900005';
+  currentAuthority?: any;
 }
 
 export interface LoginModelType {
@@ -37,11 +36,11 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
-      const response: Result<object> = yield call(fakeAccountLogin, payload);
+    *login({ payload, callback }, { call, put }) {
+      const response: Result<object> = yield call(accountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
-        payload: response.result,
+        payload: response,
       });
       // Login successfully
       if (response.status === Status.SUCCESS) {
@@ -61,6 +60,9 @@ const Model: LoginModelType = {
           }
         }
         yield put(routerRedux.replace(redirect || '/'));
+      }
+      if (callback && callback instanceof Function) {
+        callback(response);
       }
     },
 
@@ -110,12 +112,17 @@ const Model: LoginModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
-      sessionStorage.setItem('X-AUTH-TOKEN', payload.token);
+      if (payload.status === Status.SUCCESS) {
+        setAuthority(payload.currentAuthority);
+        sessionStorage.setItem('X-AUTH-TOKEN', payload.token);
+        return {
+          ...state,
+          status: payload.status,
+        };
+      }
       return {
         ...state,
         status: payload.status,
-        type: payload.type,
       };
     },
   },

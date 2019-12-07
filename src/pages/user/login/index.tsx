@@ -18,14 +18,12 @@ interface LoginProps extends FormComponentProps {
   submitting: boolean;
 }
 interface LoginState {
+  // key
+  key: string;
   // 图片验证码
-  imageCaptcha: string;
-  // 图片验证码key
-  imageCaptchaKey: string;
-  // 公钥key
-  publicKey: string;
+  captcha: string;
   // 公钥
-  publicSecret: string;
+  secret: string;
   // 自动登录
   autoLogin: boolean;
 }
@@ -38,16 +36,14 @@ class Login extends Component<LoginProps, LoginState> {
   loginForm: FormComponentProps['form'] | undefined | null = undefined;
 
   state: LoginState = {
-    imageCaptcha: '',
-    imageCaptchaKey: '',
-    publicKey: '',
-    publicSecret: '',
+    captcha: '',
+    key: '',
+    secret: '',
     autoLogin: false,
   };
 
   componentDidMount(): void {
-    this.onGetCaptcha();
-    this.getPublicSecret();
+    this.getPublicSecret(this.onGetCaptcha);
     notification.open({
       message: '提示',
       duration: null,
@@ -80,7 +76,7 @@ class Login extends Component<LoginProps, LoginState> {
    * 确定
    */
   handleSubmit = (e: React.FormEvent) => {
-    const { publicSecret, publicKey, imageCaptchaKey } = this.state;
+    const { secret, key } = this.state;
     const { form, dispatch } = this.props;
     e.preventDefault();
     form.validateFields((err, values) => {
@@ -88,7 +84,7 @@ class Login extends Component<LoginProps, LoginState> {
       // 处理密码加密
       let { password } = values;
       const encrypt = new JSEncrypt();
-      encrypt.setPublicKey(publicSecret);
+      encrypt.setPublicKey(secret);
       // 加密
       password = password && encrypt.encrypt(password);
       dispatch({
@@ -96,8 +92,24 @@ class Login extends Component<LoginProps, LoginState> {
         payload: {
           ...values,
           password,
-          publicKey,
-          imageCaptchaKey,
+          key,
+        },
+        callback: (response: any) => {
+          if (response.status === '900005') {
+            // 设置错误
+            form.setFields({
+              captcha: {
+                value: '',
+                errors: [
+                  Error(
+                    formatMessage({ id: 'user-login.login.message-invalid-verification-code' }),
+                  ),
+                ],
+              },
+            });
+            // 刷新验证码
+            this.onGetCaptcha();
+          }
         },
       });
     });
@@ -108,36 +120,31 @@ class Login extends Component<LoginProps, LoginState> {
    */
   onGetCaptcha = () => {
     const { dispatch } = this.props;
-    const { imageCaptchaKey } = this.state;
-    if (imageCaptchaKey) {
+    const { key } = this.state;
+    if (key) {
       // 获取验证码
       dispatch({
         type: 'login/getImageCaptcha',
-        payload: { key: imageCaptchaKey },
-        callback: (value: { image: string; key: string }) => {
-          this.setState({ imageCaptcha: value.image, imageCaptchaKey: value.key });
+        payload: { key },
+        callback: (value: { image: string }) => {
+          this.setState({ captcha: value.image });
         },
       });
-      return;
     }
-    dispatch({
-      type: 'login/getImageCaptcha',
-      callback: (value: { image: string; key: string }) => {
-        this.setState({ imageCaptcha: value.image, imageCaptchaKey: value.key });
-      },
-    });
   };
 
   /**
    * 获取登录秘钥
    */
-  getPublicSecret = () => {
+  getPublicSecret = (callback: () => void) => {
     const { dispatch } = this.props;
     // 获取公钥
     dispatch({
       type: 'login/getPublicSecret',
       callback: (value: { secret: string; key: string }) => {
-        this.setState({ publicSecret: value.secret, publicKey: value.key });
+        this.setState({ secret: value.secret, key: value.key });
+        // 调用验证码
+        callback();
       },
     });
   };
@@ -152,20 +159,19 @@ class Login extends Component<LoginProps, LoginState> {
       submitting,
       form: { getFieldDecorator },
     } = this.props;
-    const { status, type: loginType } = userLogin;
+    const { status } = userLogin;
     const { autoLogin } = this.state;
     return (
       <React.Fragment>
         <div className={styles.main}>
           {status === 'error' &&
-            loginType === 'account' &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
             )}
           <Form className="login-form" onSubmit={this.handleSubmit}>
             <Form.Item>
-              {getFieldDecorator('userName', {
+              {getFieldDecorator('username', {
                 rules: [
                   {
                     required: true,
@@ -212,7 +218,7 @@ class Login extends Component<LoginProps, LoginState> {
                     rules: [
                       {
                         required: true,
-                        message: formatMessage({ id: 'user-login.phone-number.required' }),
+                        message: formatMessage({ id: 'user-login.verification-code.required' }),
                       },
                     ],
                   })(
@@ -228,7 +234,7 @@ class Login extends Component<LoginProps, LoginState> {
                   <img
                     className={styles.getCaptcha}
                     onClick={this.onGetCaptcha}
-                    src={`data:image/png;base64,${this.state.imageCaptcha}`}
+                    src={`data:image/png;base64,${this.state.captcha}`}
                     alt=""
                   />
                 </Col>
