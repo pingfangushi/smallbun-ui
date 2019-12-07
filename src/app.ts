@@ -12,7 +12,7 @@ export function render(oldRender: () => void) {
     .then(result => result.json())
     .then((result: Result<object>) => {
       if (result.status === Status.SUCCESS) {
-        localStorage.setItem('G_SYS_DICT', JSON.stringify(result.result));
+        localStorage.setItem('smallbun-dict', JSON.stringify(result.result));
         oldRender();
       }
     });

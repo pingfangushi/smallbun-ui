@@ -1,16 +1,17 @@
-import { Alert, Checkbox, Form, Button, Input, Icon, Row, Col, notification } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { Alert, Button, Checkbox, Col, Form, Icon, Input, notification, Row } from 'antd';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { JSEncrypt } from 'jsencrypt';
 
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { Dispatch, AnyAction } from 'redux';
+import { AnyAction, Dispatch } from 'redux';
 import { FormComponentProps } from 'antd/es/form';
 import { connect } from 'dva';
 import { StateType } from '@/models/login';
 import styles from './style.less';
 import { ConnectState } from '@/models/connect';
+import { Status } from '@/pages/typings';
 
 interface LoginProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -95,7 +96,13 @@ class Login extends Component<LoginProps, LoginState> {
           key,
         },
         callback: (response: any) => {
-          if (response.status === '900005') {
+          const {
+            userLogin: { status },
+          } = this.props;
+          if (status === Status.SUCCESS) {
+            notification.destroy();
+          }
+          if (response.status === '000103') {
             // 设置错误
             form.setFields({
               captcha: {

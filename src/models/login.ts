@@ -10,7 +10,7 @@ import { getPageQuery } from '@/utils/utils';
 import { Result, Status } from '@/pages/typings';
 
 export interface StateType {
-  status?: 'ok' | 'error' | '000102';
+  status?: Status.SUCCESS | 'error' | '000102';
   currentAuthority?: any;
 }
 
@@ -113,8 +113,8 @@ const Model: LoginModelType = {
   reducers: {
     changeLoginStatus(state, { payload }) {
       if (payload.status === Status.SUCCESS) {
-        setAuthority(payload.currentAuthority);
-        sessionStorage.setItem('X-AUTH-TOKEN', payload.token);
+        setAuthority(payload.result.currentAuthority);
+        sessionStorage.setItem('X-AUTH-TOKEN', payload.result.token);
         return {
           ...state,
           status: payload.status,
