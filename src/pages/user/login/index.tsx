@@ -110,6 +110,11 @@ class Login extends Component<LoginProps, LoginState> {
             // 刷新验证码
             this.onGetCaptcha();
           }
+          if (response.status === '000102') {
+            form.setFields({ captcha: { value: '' } });
+            // 刷新验证码
+            this.onGetCaptcha();
+          }
         },
       });
     });
@@ -164,7 +169,7 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <div className={styles.main}>
-          {status === 'error' &&
+          {status === '000102' &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
