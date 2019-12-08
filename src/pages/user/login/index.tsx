@@ -248,12 +248,14 @@ class Login extends Component<LoginProps, LoginState> {
                 </Col>
                 <Col span={8}>
                   <Spin spinning={this.state.captchaLoading}>
-                    <img
-                      className={styles.getCaptcha}
-                      onClick={this.onGetCaptcha}
-                      src={`data:image/png;base64,${this.state.captcha}`}
-                      alt=""
-                    />
+                    {this.state.captcha && (
+                      <img
+                        className={styles.getCaptcha}
+                        onClick={this.onGetCaptcha}
+                        src={`data:image/png;base64,${this.state.captcha}`}
+                        alt=""
+                      />
+                    )}
                   </Spin>
                 </Col>
               </Row>
