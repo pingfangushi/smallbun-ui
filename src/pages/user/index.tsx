@@ -24,8 +24,8 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
 import { ColumnProps } from 'antd/lib/table';
 import UserForm from './form';
-import { StateType } from './model';
-import { StateType as RoleStateType } from '@/pages/role/model';
+import { UserModelState as StateType } from '@/models/user';
+import { StateType as RoleStateType } from '@/models/role';
 import styles from './style.less';
 import StandardTable from '@/components/StandardTable';
 import { TableListItem } from './data.d';
@@ -33,7 +33,7 @@ import { Add, Remove, Update } from '@/components/OpenButton';
 import { Open } from '@/pages/typings';
 import Authorized from '@/components/Authorized/Authorized';
 import { UserStatus } from '@/pages/user/typings';
-import { StateType as GroupStateType } from '@/pages/group/model';
+import { StateType as GroupStateType } from '@/models/group';
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -48,17 +48,17 @@ interface TableListProps extends FormComponentProps {
   dispatch: Dispatch<
     Action<
       | 'group/tree'
-      | 'users/form'
-      | 'users/fetch'
-      | 'users/remove'
-      | 'users/submit'
-      | 'users/details'
-      | 'users/updateStatus'
-      | 'users/updatePassword'
+      | 'user/form'
+      | 'user/fetch'
+      | 'user/remove'
+      | 'user/submit'
+      | 'user/details'
+      | 'user/updateStatus'
+      | 'user/updatePassword'
     >
   >;
   role: RoleStateType;
-  users: StateType;
+  user: StateType;
   group: GroupStateType;
 }
 
@@ -75,20 +75,14 @@ interface TableListState {
 }
 
 @connect(
-  ({
-    users,
-    group,
-    loading,
-  }: {
-    users: StateType;
-    group: GroupStateType;
-    loading: { effects: { [key: string]: boolean } };
-  }) => ({
-    users,
-    group,
-    loading: loading.effects['users/fetch'],
+  ({ user, loading }: { user: StateType; loading: { effects: { [key: string]: boolean } } }) => ({
+    user,
+    loading: loading.effects['user/fetch'],
   }),
 )
+@connect(({ group }: { group: GroupStateType }) => ({
+  group,
+}))
 /**
  * 用户管理
  * @author SanLi
@@ -244,7 +238,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
   fetch = (params?: {}) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'users/fetch',
+      type: 'user/fetch',
       payload: params,
     });
   };
@@ -255,7 +249,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
   addOnClick = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'users/form',
+      type: 'user/form',
       payload: { type: Open.ADD },
     });
   };
@@ -266,7 +260,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
   updateOnClick = (id: string) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'users/form',
+      type: 'user/form',
       payload: { type: Open.UPDATE, id },
     });
   };
@@ -281,7 +275,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
   removeOnClick = (ids: string[]) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'users/remove',
+      type: 'user/remove',
       payload: { ids },
       callback: () => {
         this.setState({ selectedRows: [] });
@@ -349,21 +343,22 @@ class Index extends PureComponent<TableListProps, TableListState> {
             </Col>
             <Col xs={24} sm={24} md={6}>
               <Form.Item label="组织">
-                {getFieldDecorator('groupId')(
-                  <TreeSelect<string>
-                    showSearch
-                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    placeholder="请选择归属组织"
-                    treeDefaultExpandAll
-                    treeNodeFilterProp="title"
-                    treeData={tree}
-                    autoClearSearchValue
-                    onChange={(value, label, extra) => {
-                      const { form } = this.props;
-                      form.setFieldsValue({ groupId: extra.triggerNode.props.id });
-                    }}
-                  />,
-                )}
+                {tree &&
+                  getFieldDecorator('groupId')(
+                    <TreeSelect<string>
+                      showSearch
+                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                      placeholder="请选择归属组织"
+                      treeDefaultExpandAll
+                      treeNodeFilterProp="title"
+                      treeData={tree}
+                      autoClearSearchValue
+                      onChange={(value, label, extra) => {
+                        const { form } = this.props;
+                        form.setFieldsValue({ groupId: extra.triggerNode.props.id });
+                      }}
+                    />,
+                  )}
               </Form.Item>
             </Col>
             <Col xs={24} sm={24} md={6}>
@@ -382,7 +377,6 @@ class Index extends PureComponent<TableListProps, TableListState> {
     );
   };
 
-
   handleSelectRows = (rows: TableListItem[]) => {
     this.setState({
       selectedRows: rows,
@@ -394,7 +388,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
    */
   render(): React.ReactNode {
     const {
-      users: { list },
+      user: { list },
       loading,
     } = this.props;
     const { selectedRows } = this.state;
@@ -445,7 +439,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
             this.setState({ passWordLoading: true });
             const { dispatch } = this.props;
             dispatch({
-              type: 'users/updatePassword',
+              type: 'user/updatePassword',
               payload: { id: value.id, password: value.password },
               callback: () => {
                 this.setState({ passWordVisible: false });

@@ -5,7 +5,7 @@ import { FormComponentProps } from 'antd/es/form';
 import { Button, Card, Col, Form, Input, Row } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { LoginTableListItem } from './data.d';
-import { StateType } from './model';
+import { StateType } from '@/models/logger';
 import styles from './style.less';
 import { Empty } from '@/components/OpenButton';
 
@@ -146,14 +146,14 @@ class LoginLogger extends React.Component<LoginTableListProps, LoginTableListSta
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
-            <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="用户">
                 {getFieldDecorator('user')(
                   <Input autoComplete="off" allowClear placeholder="请输入用户名" />,
                 )}
               </FormItem>
             </Col>
-            <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

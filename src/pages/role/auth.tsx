@@ -3,7 +3,7 @@ import * as React from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { Action, Dispatch } from 'redux';
 import { connect } from 'dva';
-import { StateType as RoleStateType } from '@/pages/role/model';
+import { StateType as RoleStateType } from '@/models/role';
 import { AuthorityType } from '@/pages/authority/typings';
 import { Item } from '@/pages/role/data';
 

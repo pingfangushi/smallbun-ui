@@ -23,7 +23,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
 import StandardTable from '@/components/StandardTable';
-import { StateType } from './model';
+import { StateType } from '@/models/dict';
 import { TypeTableListItem } from './data.d';
 import styles from './style.less';
 import { Open, Result, Status } from '@/pages/typings';
@@ -275,14 +275,14 @@ class DictType extends React.Component<DictTableListProps, DictTableListState> {
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="类型名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" allowClear placeholder="请输入类型名称" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="字典状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择字典状态" allowClear style={{ width: '100%' }}>
@@ -296,7 +296,7 @@ class DictType extends React.Component<DictTableListProps, DictTableListState> {
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   {formatMessage({ id: 'search.inquire' })}

@@ -11,10 +11,6 @@ declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
 declare module 'omit.js';
-declare module 'react-copy-to-clipboard';
-declare module 'react-fittext';
-declare module '@antv/data-set';
-declare module 'nzh/cn';
 declare module 'react-color';
 declare module 'jsencrypt';
 // google analytics interface
@@ -31,6 +27,6 @@ interface Window {
     hitType: 'event' | 'pageview',
     fieldsObject: GAFieldsObject | string,
   ) => void;
+  reloadAuthorized: () => void;
 }
-
 declare let ga: Function;

@@ -20,7 +20,7 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
 import RoleForm from './form';
-import { ModelType, StateType } from './model';
+import { StateType } from '@/models/role';
 import { TableListItem } from './data.d';
 import styles from './style.less';
 import { Open } from '@/pages/typings';
@@ -30,7 +30,6 @@ import StandardTable from '@/components/StandardTable';
 import RoleAuthorize from '@/pages/role/auth';
 import Authorized from '@/components/Authorized/Authorized';
 import { RoleStatus } from '@/pages/role/typings';
-
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -58,7 +57,7 @@ interface TableListState {
 }
 
 @connect(
-  ({ role, loading }: { role: ModelType; loading: { effects: { [key: string]: boolean } } }) => ({
+  ({ role, loading }: { role: StateType; loading: { effects: { [key: string]: boolean } } }) => ({
     role,
     loading: loading.effects['role/fetch'],
   }),
@@ -266,14 +265,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="角色名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" allowClear placeholder="请输入角色名称" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="角色状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择角色状态" allowClear style={{ width: '100%' }}>
@@ -287,7 +286,7 @@ class Index extends React.Component<TableListProps, TableListState> {
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   {formatMessage({ id: 'search.inquire' })}

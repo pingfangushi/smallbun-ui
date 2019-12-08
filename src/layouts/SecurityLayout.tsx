@@ -24,22 +24,16 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     this.setState({
       isReady: true,
     });
-    const { dispatch } = this.props;
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
   }
 
   render() {
     const { isReady } = this.state;
     const { children, loading } = this.props;
+    const isLogin = localStorage.getItem('X-AUTH-TOKEN');
     const queryString = stringify({
       redirect: window.location.href,
     });
-    // 获取token
-    const isLogin = sessionStorage.getItem('X-AUTH-TOKEN');
+
     if ((!isLogin && loading) || !isReady) {
       return <PageLoading />;
     }

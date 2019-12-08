@@ -5,10 +5,10 @@ import { Action, Dispatch } from 'redux';
 import { connect } from 'dva';
 import { ValidateFieldsOptions } from 'antd/lib/form/Form';
 import Divider from '@/components/Divider';
-import { StateType } from './model';
-import { StateType as GroupStateType } from '../group/model';
+import { UserModelState as StateType } from '@/models/user';
+import { StateType as GroupStateType } from '@/models/group';
 import { UserStatus } from './typings';
-import { StateType as RoleStateType } from '@/pages/role/model';
+import { StateType as RoleStateType } from '@/models/role';
 import { Open } from '@/pages/typings';
 
 const { Option } = Select;
@@ -18,9 +18,11 @@ const RadioGroup = Radio.Group;
 export interface UserFormProps extends FormComponentProps {
   loading: boolean;
   dispatch: Dispatch<
-    Action<'users/form' | 'users/fetch' | 'users/remove' | 'users/submit' | 'users/unique'>
+    Action<
+      'role/fetch' | 'user/form' | 'user/fetch' | 'user/remove' | 'user/submit' | 'user/unique'
+    >
   >;
-  users: StateType;
+  user: StateType;
   role: RoleStateType;
   group: GroupStateType;
 }
@@ -42,24 +44,31 @@ const formItemLayout = {
  */
 @connect(
   ({
-    users,
+    user,
     group,
     role,
     loading,
   }: {
-    users: StateType;
+    user: StateType;
     group: GroupStateType;
     role: RoleStateType;
     loading: { effects: { [key: string]: boolean } };
   }) => ({
-    users,
+    user,
     group,
     role,
-    loading: loading.effects['users/submit'],
+    loading: loading.effects['user/submit'],
   }),
 )
 class UserForm extends React.PureComponent<UserFormProps> {
   static defaultProps = {};
+
+  componentDidMount(): void {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'role/fetch',
+    });
+  }
 
   /**
    * 隐藏
@@ -74,7 +83,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
       },
     } = this.props;
     dispatch({
-      type: 'users/form',
+      type: 'user/form',
       payload: { visible: false, type },
     });
   };
@@ -90,7 +99,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
       if (!err) {
         // 提交
         dispatch({
-          type: 'users/submit',
+          type: 'user/submit',
           payload: values,
           callback: () => {
             form.resetFields();
@@ -112,7 +121,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
     const { dispatch } = this.props;
     // 唯一验证
     dispatch({
-      type: 'users/unique',
+      type: 'user/unique',
       payload,
       callback: (unique: boolean) => {
         if (!unique) {
@@ -128,7 +137,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
     const {
       loading,
       form: { getFieldDecorator },
-      users: {
+      user: {
         form: { visible, title, fields = {}, type: open },
       },
       role: {
@@ -192,7 +201,13 @@ class UserForm extends React.PureComponent<UserFormProps> {
                       },
                     },
                   ],
-                })(<Input autoComplete="off" placeholder="请输入用户名" readOnly={open === Open.UPDATE} />)}
+                })(
+                  <Input
+                    autoComplete="off"
+                    placeholder="请输入用户名"
+                    readOnly={open === Open.UPDATE}
+                  />,
+                )}
               </Form.Item>
               <Form.Item {...formItemLayout} label="角色">
                 {getFieldDecorator('roleIds', {

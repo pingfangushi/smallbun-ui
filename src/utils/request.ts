@@ -38,7 +38,7 @@ const errorHandler = (error: { response: Response }): Response => {
         redirect: window.location.href,
       });
       Modal.destroyAll();
-      sessionStorage.removeItem('X-AUTH-TOKEN');
+      localStorage.removeItem('X-AUTH-TOKEN');
       Modal.error({
         title: '提示',
         content: '登录超时，请重新登录',
@@ -93,7 +93,7 @@ request.interceptors.request.use((url, options) => {
   // 获取 XSRF-TOKEN
   const xsrf = getCookie('XSRF-TOKEN');
   // 获取 X-AUTH-TOKEN
-  const token = sessionStorage.getItem('X-AUTH-TOKEN');
+  const token = localStorage.getItem('X-AUTH-TOKEN');
   // 添加xsrf
   if (xsrf) {
     headers = { ...headers, ...{ 'X-XSRF-TOKEN': xsrf } };

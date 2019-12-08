@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import { SearchParams } from './data.d';
+import { SearchParams } from '@/pages/role/data.d';
 
 /**
  * 角色唯一验证

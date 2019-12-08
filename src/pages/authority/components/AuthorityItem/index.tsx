@@ -59,12 +59,12 @@ class AuthorityItem extends React.Component<AuthItemProps, AuthItemState> {
    */
   columns: ColumnProps<ConfigListItem>[] = [
     {
-      title: '操作名称',
+      title: '名称',
       dataIndex: 'name',
       align: 'center',
     },
     {
-      title: '权限标识',
+      title: '标识',
       dataIndex: 'permission',
       align: 'center',
     },

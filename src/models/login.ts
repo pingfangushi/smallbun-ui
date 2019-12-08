@@ -10,7 +10,7 @@ import { getPageQuery } from '@/utils/utils';
 import { Result, Status } from '@/pages/typings';
 
 export interface StateType {
-  status?: Status.SUCCESS | 'error' | '000102';
+  status?: Status.SUCCESS |Status.EX000102;
   currentAuthority?: any;
 }
 
@@ -95,6 +95,8 @@ const Model: LoginModelType = {
       });
     },
     *logout(_, { put }) {
+      // 清除token
+      localStorage.removeItem('X-AUTH-TOKEN');
       const { redirect } = getPageQuery();
       // redirect
       if (window.location.pathname !== '/user/login' && !redirect) {
@@ -114,7 +116,7 @@ const Model: LoginModelType = {
     changeLoginStatus(state, { payload }) {
       if (payload.status === Status.SUCCESS) {
         setAuthority(payload.result.currentAuthority);
-        sessionStorage.setItem('X-AUTH-TOKEN', payload.result.token);
+        localStorage.setItem('X-AUTH-TOKEN', payload.result.token);
         return {
           ...state,
           status: payload.status,

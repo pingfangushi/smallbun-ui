@@ -2,9 +2,6 @@ import { IConfig, IPlugin } from 'umi-types';
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 import slash from 'slash2';
 
-// import darkTheme from '@ant-design/dark-theme';
-// import aliyunTheme from '@ant-design/aliyun-theme';
-
 const { pwa } = defaultSettings;
 
 const plugins: IPlugin[] = [
@@ -23,11 +20,11 @@ const plugins: IPlugin[] = [
         // default true, when it is true, will use `navigator.language` overwrite default
         baseNavigator: true,
       },
-      // dynamicImport: {
-      //   loadingComponent: './components/PageLoading/index',
-      //   webpackChunkName: true,
-      //   level: 3,
-      // },
+      dynamicImport: {
+        loadingComponent: './components/PageLoading/index',
+        webpackChunkName: true,
+        level: 5,
+      },
       pwa: pwa
         ? {
             workboxPluginMode: 'InjectManifest',
@@ -56,16 +53,10 @@ const plugins: IPlugin[] = [
 
 export default {
   plugins,
-  block: {
-    // 国内用户可以使用码云
-    // defaultGitUrl: 'https://gitee.com/ant-design/pro-blocks',
-    defaultGitUrl: 'https://github.com/ant-design/pro-blocks',
-  },
   hash: true,
   targets: {
     ie: 11,
   },
-  devtool: false,
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
@@ -86,7 +77,6 @@ export default {
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
@@ -192,7 +182,6 @@ export default {
         },
       ],
     },
-
     {
       component: './404',
     },
@@ -200,7 +189,6 @@ export default {
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
-    // ...aliyunTheme,
   },
   define: {},
   ignoreMomentLocale: true,
@@ -242,6 +230,7 @@ export default {
   manifest: {
     basePath: '/',
   },
+  //chainWebpack: webpackPlugin,
   proxy: {
     '/api/': {
       target: 'http://127.0.0.1:8080',
@@ -251,6 +240,5 @@ export default {
       },
     },
   },
-  publicPath: 'http://resource.leshalv.com/',
-  treeShaking: true,
+  publicPath: 'http://resource.leshalv.com/website/',
 } as IConfig;

@@ -3,7 +3,7 @@ import { Card, Form } from 'antd';
 import { connect } from 'dva';
 import { Action, Dispatch } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
-import { ModelType, StateType } from './model';
+import { ModelType, StateType } from '@/models/group';
 import SearchTree, { SearchTreeProps } from '@/components/SearchTree';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

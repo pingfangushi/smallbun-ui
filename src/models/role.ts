@@ -11,7 +11,7 @@ import {
   update,
   updateAuthorize,
   updateStatusById,
-} from './service';
+} from '@/services/role';
 import { Omit, Open, Result, Status } from '@/pages/typings';
 import { TableListData } from '@/components/StandardTable/data.d';
 import { Auth, AuthItem, Form, Item, TableListItem } from '@/pages/role/data';

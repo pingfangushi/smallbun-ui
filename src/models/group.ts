@@ -10,8 +10,8 @@ import {
   updateById,
   getTree,
   updateStatusById,
-} from './service';
-import { FormItem, TableListItem, TreeNode } from './data.d';
+} from '@/services/group';
+import { FormItem, TableListItem, TreeNode } from '@/pages/group/data.d';
 import { Omit, Open, Result, Status } from '@/pages/typings';
 import { TableListData } from '@/components/StandardTable/data';
 

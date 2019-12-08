@@ -7,7 +7,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
-import { ModelType, StateType } from './model';
+import { StateType } from '@/models/authority';
 import { TableListItem } from './data.d';
 import { Open } from '@/pages/typings';
 import { Add, Remove, Update } from '@/components/OpenButton';
@@ -53,7 +53,7 @@ interface TableListState {
     authority,
     loading,
   }: {
-    authority: ModelType;
+    authority: StateType;
     loading: { effects: { [key: string]: boolean } };
   }) => ({
     authority,
@@ -78,7 +78,7 @@ class Index extends React.Component<TableListProps, TableListState> {
    */
   columns: ColumnProps<TableListItem>[] = [
     {
-      title: '业务名称',
+      title: '权限名称',
       dataIndex: 'name',
       align: 'center',
     },
@@ -240,14 +240,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={style.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="业务名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" allowClear placeholder="请输入业务名称" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={style.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

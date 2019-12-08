@@ -9,13 +9,13 @@ import SelectLang from '@/components/SelectLang';
 import { ConnectProps, ConnectState } from '@/models/connect';
 import logo from '../assets/logo.svg';
 import styles from './UserLayout.less';
-import { Icon } from 'antd';
+import {Icon} from "antd";
 
 export interface UserLayoutProps extends ConnectProps {
   breadcrumbNameMap: { [path: string]: MenuDataItem };
 }
 
-const UserLayout: React.SFC<UserLayoutProps> = props => {
+const UserLayout: React.FC<UserLayoutProps> = props => {
   const {
     route = {
       routes: [],
@@ -54,7 +54,7 @@ const UserLayout: React.SFC<UserLayoutProps> = props => {
                 <span className={styles.title}>SmallBun</span>
               </Link>
             </div>
-            <div className={styles.desc}>SmallBun 大明湖畔最好的企业级开发脚手架</div>
+            <div className={styles.desc}>SmallBun是大明湖畔最好的企业级开发脚手架</div>
           </div>
           {children}
         </div>

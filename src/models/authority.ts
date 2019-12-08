@@ -13,10 +13,10 @@ import {
   uniqueItem,
   updateById,
   updateItemById,
-} from './service';
+} from '@/services/authority';
 import { Omit, Open, Result, Status } from '@/pages/typings';
 import { TableListData } from '@/components/StandardTable/data';
-import { Config, FormItem, TableListItem } from './data.d';
+import { Config, FormItem, TableListItem } from '@/pages/authority/data.d';
 import { AuthorityType } from '@/pages/authority/typings';
 
 export type Effect = (

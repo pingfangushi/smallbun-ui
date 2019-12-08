@@ -3,7 +3,7 @@ import { Drawer, Card, Tabs } from 'antd';
 import { connect } from 'dva';
 import { Action, Dispatch } from 'redux';
 import Form from 'antd/es/form';
-import { StateType } from '@/pages/authority/model';
+import { StateType } from '@/models/authority';
 import AuthorityItem from '@/pages/authority/components/AuthorityItem';
 import { Open } from '@/pages/typings';
 import { AuthorityType } from '@/pages/authority/typings';

@@ -1,10 +1,10 @@
 import { AnyAction, Reducer } from 'redux';
 import { EffectsCommandMap } from 'dva';
 import { message } from 'antd';
-import { emptyLogin, emptyOperate, getOperatePage, getLoginPage, getOperateById } from './service';
-import { Omit, Result, Status } from '../typings';
+import { emptyLogin, emptyOperate, getOperatePage, getLoginPage, getOperateById } from '@/services/logger';
+import { Omit, Result, Status } from '@/pages/typings';
 import { TableListData } from '@/components/StandardTable/data';
-import { LoginTableListItem, OperateDetailsItem, OperateTableListItem } from './data.d';
+import { LoginTableListItem, OperateDetailsItem, OperateTableListItem } from '@/pages/logger/data.d';
 
 export type Effect = (
   action: AnyAction,

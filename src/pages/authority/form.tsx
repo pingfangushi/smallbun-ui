@@ -3,7 +3,7 @@ import { Action, Dispatch } from 'redux';
 import { connect } from 'dva';
 import { FormComponentProps } from 'antd/es/form';
 import { Form, Input, Modal } from 'antd';
-import { StateType } from './model';
+import { StateType } from '@/models/authority';
 import { FormItemFields } from './data.d';
 
 const { TextArea } = Input;

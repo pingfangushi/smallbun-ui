@@ -20,7 +20,7 @@ import { Action, Dispatch } from 'redux';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { ColumnProps } from 'antd/lib/table';
 import { ChromePicker } from 'react-color';
-import { StateType } from './model';
+import { StateType } from '@/models/dict';
 import { Open } from '@/pages/typings';
 import { Add } from '@/components/OpenButton';
 import StandardTable from '@/components/StandardTable';
@@ -523,7 +523,7 @@ class ItemForm extends React.Component<dictFormProps, dictFormState> {
                 <TextArea
                   autoComplete="off"
                   placeholder="请输入备注信息"
-                  autoSize={{ minRows: 3}}
+                  autoSize={{ minRows: 3 }}
                 />,
               )}
             </Form.Item>

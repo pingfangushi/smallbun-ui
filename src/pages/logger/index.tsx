@@ -6,7 +6,7 @@ import { Dispatch, Action } from 'redux';
 import { connect } from 'dva';
 import LoginLogger from '@/pages/logger/login';
 import OperateLogger from '@/pages/logger/operate';
-import { StateType } from './model';
+import { StateType } from '@/models/logger';
 
 const { TabPane } = Tabs;
 export interface IndexProps {

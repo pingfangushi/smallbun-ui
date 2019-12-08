@@ -1,4 +1,4 @@
-import { Alert, Button, Checkbox, Col, Form, Icon, Input, notification, Row } from 'antd';
+import { Alert, Button, Checkbox, Col, Form, Icon, Input, notification, Row, Spin } from 'antd';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -20,13 +20,15 @@ interface LoginProps extends FormComponentProps {
 }
 interface LoginState {
   // key
-  key: string;
+  key?: string;
   // 图片验证码
-  captcha: string;
+  captcha?: string;
   // 公钥
-  secret: string;
+  secret?: string;
   // 自动登录
   autoLogin: boolean;
+  // 验证码加载
+  captchaLoading: boolean;
 }
 
 @connect(({ login, loading }: ConnectState) => ({
@@ -37,15 +39,15 @@ class Login extends Component<LoginProps, LoginState> {
   loginForm: FormComponentProps['form'] | undefined | null = undefined;
 
   state: LoginState = {
-    captcha: '',
-    key: '',
-    secret: '',
-    autoLogin: false,
+    autoLogin: true,
+    captchaLoading: true,
   };
 
   componentDidMount(): void {
     this.getPublicSecret(this.onGetCaptcha);
+    notification.close('notification');
     notification.open({
+      key: 'notification',
       message: '提示',
       duration: null,
       description: (
@@ -77,7 +79,7 @@ class Login extends Component<LoginProps, LoginState> {
    * 确定
    */
   handleSubmit = (e: React.FormEvent) => {
-    const { secret, key } = this.state;
+    const { secret, key, autoLogin } = this.state;
     const { form, dispatch } = this.props;
     e.preventDefault();
     form.validateFields((err, values) => {
@@ -94,6 +96,7 @@ class Login extends Component<LoginProps, LoginState> {
           ...values,
           password,
           key,
+          rememberMe: autoLogin,
         },
         callback: (response: any) => {
           const {
@@ -102,7 +105,7 @@ class Login extends Component<LoginProps, LoginState> {
           if (status === Status.SUCCESS) {
             notification.destroy();
           }
-          if (response.status === '000103') {
+          if (response.status === Status.EX000103) {
             // 设置错误
             form.setFields({
               captcha: {
@@ -133,13 +136,14 @@ class Login extends Component<LoginProps, LoginState> {
   onGetCaptcha = () => {
     const { dispatch } = this.props;
     const { key } = this.state;
+    this.setState({ captchaLoading: true });
     if (key) {
       // 获取验证码
       dispatch({
         type: 'login/getImageCaptcha',
         payload: { key },
         callback: (value: { image: string }) => {
-          this.setState({ captcha: value.image });
+          this.setState({ captcha: value.image, captchaLoading: false });
         },
       });
     }
@@ -176,7 +180,7 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <div className={styles.main}>
-          {status === '000102' &&
+          {status === Status.EX000102 &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
@@ -243,12 +247,14 @@ class Login extends Component<LoginProps, LoginState> {
                   )}
                 </Col>
                 <Col span={8}>
-                  <img
-                    className={styles.getCaptcha}
-                    onClick={this.onGetCaptcha}
-                    src={`data:image/png;base64,${this.state.captcha}`}
-                    alt=""
-                  />
+                  <Spin spinning={this.state.captchaLoading}>
+                    <img
+                      className={styles.getCaptcha}
+                      onClick={this.onGetCaptcha}
+                      src={`data:image/png;base64,${this.state.captcha}`}
+                      alt=""
+                    />
+                  </Spin>
                 </Col>
               </Row>
             </Form.Item>

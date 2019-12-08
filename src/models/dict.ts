@@ -8,7 +8,7 @@ import {
   ItemFormItem,
   ItemFormItemFields,
   TypeFormItemFields,
-} from './data.d';
+} from '@/pages/dict/data.d';
 import { Open, Result, Status } from '@/pages/typings';
 import {
   addItem,
@@ -25,7 +25,7 @@ import {
   removeItemByIds,
   updateStatusById,
   updateDefaultById,
-} from './service';
+} from '@/services/dict';
 import { TableListData } from '@/components/StandardTable/data';
 
 export type Effect = (

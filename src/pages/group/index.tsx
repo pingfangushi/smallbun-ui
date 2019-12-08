@@ -25,7 +25,7 @@ import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
 import OrgForm from './form';
 import StandardTable from '@/components/StandardTable';
-import { ModelType, StateType } from './model';
+import { ModelType, StateType } from '@/models/group';
 import { TableListItem } from './data.d';
 import styles from './style.less';
 import { Open, Result, Status } from '@/pages/typings';
@@ -268,14 +268,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="机构名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" placeholder="请输入角色名称" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="机构状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择机构状态" allowClear style={{ width: '100%' }}>
@@ -289,7 +289,7 @@ class Index extends React.Component<TableListProps, TableListState> {
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={6}>
+           <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

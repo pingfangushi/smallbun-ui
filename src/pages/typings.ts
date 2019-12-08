@@ -29,7 +29,12 @@ export default class Type {}
  */
 export enum Status {
   SUCCESS = '200',
+  // 系统异常
   EX900001 = '900001',
+  // 账户或密码错误
+  EX000102 = '000102',
+  // 验证码错误
+  EX000103 = '000103',
 }
 
 export interface BaseResult {

@@ -1,4 +1,4 @@
-import request from '../../utils/request';
+import request from '@/utils/request';
 
 /**
  * 分页类型查询

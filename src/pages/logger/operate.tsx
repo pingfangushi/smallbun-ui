@@ -10,7 +10,7 @@ import styles from './style.less';
 import { Empty } from '@/components/OpenButton';
 
 import StandardTable from '@/components/StandardTable';
-import { StateType } from './model';
+import { StateType } from '@/models/logger';
 import { findDict } from '@/utils/dict';
 
 const { Option } = Select;
@@ -178,14 +178,14 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-            <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="用户">
                 {getFieldDecorator('user')(
                   <Input autoComplete="off" allowClear placeholder="请输入操作用户名" />,
                 )}
               </FormItem>
             </Col>
-            <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="平台">
                 {getFieldDecorator('platform')(
                   <Select placeholder="请选择来源平台" allowClear style={{ width: '100%' }}>
@@ -199,7 +199,7 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
                 )}
               </FormItem>
             </Col>
-            <Col xs={24} sm={24} md={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询
