@@ -102,9 +102,12 @@ class Login extends Component<LoginProps, LoginState> {
           const {
             userLogin: { status },
           } = this.props;
+          /** 成功 */
           if (status === Status.SUCCESS) {
-            notification.destroy();
+            // 关闭弹框
+            notification.close('notification');
           }
+          /** 验证码错误 */
           if (response.status === Status.EX000103) {
             // 设置错误
             form.setFields({
@@ -120,10 +123,15 @@ class Login extends Component<LoginProps, LoginState> {
             // 刷新验证码
             this.onGetCaptcha();
           }
-          if (response.status === '000102') {
-            form.setFields({ captcha: { value: '' } });
+          /** 账户或密码错误 */
+          if (response.status === Status.EX000102) {
             // 刷新验证码
             this.onGetCaptcha();
+          }
+          /** 数字签名错误  */
+          if (response.status === Status.EX900005) {
+            // 刷新秘钥验证码
+            this.getPublicSecret(this.onGetCaptcha);
           }
         },
       });
@@ -143,7 +151,9 @@ class Login extends Component<LoginProps, LoginState> {
         type: 'login/getImageCaptcha',
         payload: { key },
         callback: (value: { image: string }) => {
+          const { form } = this.props;
           this.setState({ captcha: value.image, captchaLoading: false });
+          form.setFields({ captcha: { value: '' } });
         },
       });
     }
@@ -180,7 +190,7 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <div className={styles.main}>
-          {status === Status.EX000102 &&
+          {(status === Status.EX000102 || status === Status.EX900005) &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),

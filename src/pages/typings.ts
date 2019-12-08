@@ -35,6 +35,8 @@ export enum Status {
   EX000102 = '000102',
   // 验证码错误
   EX000103 = '000103',
+  // 数字签名错误
+  EX900005 = '900005',
 }
 
 export interface BaseResult {
