@@ -84,7 +84,6 @@ class Login extends Component<LoginProps, LoginState> {
     const {
       form,
       dispatch,
-      userLogin: { status },
     } = this.props;
     // 验证码没加载出来之前,不能提交
     if (captchaLoading) return;
@@ -102,9 +101,9 @@ class Login extends Component<LoginProps, LoginState> {
         payload: { ...values, password, key, rememberMe: autoLogin },
         callback: (response: any) => {
           /** 成功 */
-          if (status === Status.SUCCESS) {
+          if (response.status === Status.SUCCESS) {
             // 关闭弹框
-            notification.destroy();
+            notification.close('notification');
           }
           /** 验证码错误 */
           if (response.status === Status.EX000103) {
