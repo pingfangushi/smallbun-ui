@@ -87,6 +87,9 @@ class RoleAuthorize extends React.PureComponent<RoleAuthorizeProps> {
             selected,
           );
         },
+        getCheckboxProps: (record: Item) => ({
+          disabled: record.disabled,
+        }),
       }}
       dataSource={items}
       pagination={false}

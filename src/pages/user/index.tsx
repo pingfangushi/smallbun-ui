@@ -166,7 +166,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
           return <Tag color="volcano">禁用</Tag>;
         }
         if (text === UserStatus.LOCKED) {
-          return <Tag color="red">冻结</Tag>;
+          return <Tag color="red">锁定</Tag>;
         }
         return <></>;
       },

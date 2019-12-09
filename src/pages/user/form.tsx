@@ -10,6 +10,7 @@ import { StateType as GroupStateType } from '@/models/group';
 import { UserStatus } from './typings';
 import { StateType as RoleStateType } from '@/models/role';
 import { Open } from '@/pages/typings';
+import { RoleStatus } from '@/pages/role/typings';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -217,7 +218,11 @@ class UserForm extends React.PureComponent<UserFormProps> {
                   <Select showSearch placeholder="请为用户分配角色" allowClear mode="multiple">
                     {roles &&
                       roles.map(value => (
-                        <Option key={value.id} value={value.id}>
+                        <Option
+                          key={value.id}
+                          value={value.id}
+                          disabled={value.status === RoleStatus.DISABLE}
+                        >
                           {value.name}
                         </Option>
                       ))}

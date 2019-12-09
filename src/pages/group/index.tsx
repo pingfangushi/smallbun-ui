@@ -43,7 +43,7 @@ const { Option } = Select;
  * Created by qinggang.zuo@gmail.com / 2689170096@qq.com on  2019/9/20 18:00
  */
 interface TableListProps extends FormComponentProps {
-  dispatch: Dispatch<Action<'group/form' | 'group/fetch' | 'group/remove'|'group/updateStatus'>>;
+  dispatch: Dispatch<Action<'group/form' | 'group/fetch' | 'group/remove' | 'group/updateStatus'>>;
   loading: boolean;
   group: StateType;
 }
@@ -95,15 +95,15 @@ class Index extends React.Component<TableListProps, TableListState> {
         const status = findDict('GROUP_TYPE');
         return status
           ? status.items.map(value => {
-            if (value.value === text) {
-              return (
-                <Tag color={value.color} key={value.value}>
-                  {value.label}
-                </Tag>
-              );
-            }
-            return null;
-          })
+              if (value.value === text) {
+                return (
+                  <Tag color={value.color} key={value.value}>
+                    {value.label}
+                  </Tag>
+                );
+              }
+              return null;
+            })
           : null;
       },
     },
@@ -141,12 +141,22 @@ class Index extends React.Component<TableListProps, TableListState> {
       render: text => (
         <Fragment>
           <Authorized authority="manage:operate:group:add" noMatch={<></>}>
-            <a title="新增下级机构" onClick={this.addOnClick.bind(this, text.id)}>
-              新增
-            </a>
+            <>
+              <Button
+                type="link"
+                size="small"
+                title="新增下级机构"
+                disabled={text.status === GroupStatus.DISABLE}
+                onClick={() => {
+                  this.addOnClick(text.id);
+                }}
+              >
+                {formatMessage({ id: 'add.name' })}
+              </Button>
+              <Divider type="vertical" />
+            </>
           </Authorized>
           <Authorized authority="manage:operate:group:update" noMatch={<></>}>
-            <Divider type="vertical" />
             <a onClick={this.updateOnClick.bind(this, text.id)}>
               {formatMessage({ id: 'edit.name' })}
             </a>
@@ -268,14 +278,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={styles.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={8} xxl={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="机构名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" placeholder="请输入角色名称" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={8} xxl={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="机构状态">
                 {getFieldDecorator('status')(
                   <Select placeholder="请选择机构状态" allowClear style={{ width: '100%' }}>
@@ -289,7 +299,7 @@ class Index extends React.Component<TableListProps, TableListState> {
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={8} xxl={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={styles.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询

@@ -14,6 +14,7 @@ import {
 import { FormItem, TableListItem, TreeNode } from '@/pages/group/data.d';
 import { Omit, Open, Result, Status } from '@/pages/typings';
 import { TableListData } from '@/components/StandardTable/data';
+import { GroupStatus } from '@/pages/group/typings';
 
 export type Effect = (
   action: AnyAction,
@@ -58,6 +59,20 @@ export interface ModelType {
     saveForm: Reducer<Omit<StateType, 'list' | 'tree'>>;
   };
 }
+/**
+ * 处理树
+ * @param data
+ */
+function processTree(data: TreeNode[] | any) {
+  if (data.length > 0) {
+    data.forEach((i: TreeNode, index: number) => {
+      data[index].disabled = i.status === GroupStatus.DISABLE;
+      if (i.children) {
+        processTree(i.children);
+      }
+    });
+  }
+}
 
 const OrgModel: ModelType = {
   namespace: 'group',
@@ -83,8 +98,12 @@ const OrgModel: ModelType = {
       }
     },
     *tree({ payload }, { call, put }) {
-      const response: Result<TableListItem> = yield call(getTree, payload);
+      const response: Result<TreeNode[]> = yield call(getTree, payload);
       if (response.status === Status.SUCCESS) {
+        const { result } = response;
+        if (result) {
+          processTree(result);
+        }
         yield put({ type: 'saveTree', payload: response.result });
       }
     },
