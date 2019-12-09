@@ -144,6 +144,7 @@ class Index extends React.Component<TableListProps, TableListState> {
             <Button
               type="link"
               size="small"
+              style={{ padding: 0 }}
               title="新增下级机构"
               disabled={text.status === GroupStatus.DISABLE}
               onClick={() => {
