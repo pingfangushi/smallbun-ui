@@ -51,17 +51,20 @@ class Login extends Component<LoginProps, LoginState> {
       message: '提示',
       duration: null,
       description: (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <img
             src="https://smallbun.oss-cn-hangzhou.aliyuncs.com/liaojishu.jpg"
             alt=""
             style={{ height: '250px' }}
           />
-          <p>关注公众号，回复口令，获取账号密码</p>
+          <p style={{ fontSize: '16px' }}>
+            <span style={{ color: '#1890FF' }}>关注公众号</span>，回复
+            <span style={{ color: '#ff4626' }}>口令</span>，获取账号密码
+          </p>
         </div>
       ),
       style: {
-        width: 315,
+        width: 320,
       },
     });
   }
