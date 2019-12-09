@@ -141,20 +141,18 @@ class Index extends React.Component<TableListProps, TableListState> {
       render: text => (
         <Fragment>
           <Authorized authority="manage:operate:group:add" noMatch={<></>}>
-            <>
-              <Button
-                type="link"
-                size="small"
-                title="新增下级机构"
-                disabled={text.status === GroupStatus.DISABLE}
-                onClick={() => {
-                  this.addOnClick(text.id);
-                }}
-              >
-                {formatMessage({ id: 'add.name' })}
-              </Button>
-              <Divider type="vertical" />
-            </>
+            <Button
+              type="link"
+              size="small"
+              title="新增下级机构"
+              disabled={text.status === GroupStatus.DISABLE}
+              onClick={() => {
+                this.addOnClick(text.id);
+              }}
+            >
+              {formatMessage({ id: 'add.name' })}
+            </Button>
+            <Divider type="vertical" />
           </Authorized>
           <Authorized authority="manage:operate:group:update" noMatch={<></>}>
             <a onClick={this.updateOnClick.bind(this, text.id)}>
