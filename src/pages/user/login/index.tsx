@@ -82,8 +82,14 @@ class Login extends Component<LoginProps, LoginState> {
    * 确定
    */
   handleSubmit = (e: React.FormEvent) => {
-    const { secret, key, autoLogin } = this.state;
-    const { form, dispatch } = this.props;
+    const { secret, key, autoLogin, captchaLoading } = this.state;
+    const {
+      form,
+      dispatch,
+      userLogin: { status },
+    } = this.props;
+    // 验证码没加载出来之前,不能提交
+    if (captchaLoading) return;
     e.preventDefault();
     form.validateFields((err, values) => {
       if (err) return;
@@ -95,16 +101,8 @@ class Login extends Component<LoginProps, LoginState> {
       password = password && encrypt.encrypt(password);
       dispatch({
         type: 'login/login',
-        payload: {
-          ...values,
-          password,
-          key,
-          rememberMe: autoLogin,
-        },
+        payload: { ...values, password, key, rememberMe: autoLogin },
         callback: (response: any) => {
-          const {
-            userLogin: { status },
-          } = this.props;
           /** 成功 */
           if (status === Status.SUCCESS) {
             // 关闭弹框
@@ -198,7 +196,7 @@ class Login extends Component<LoginProps, LoginState> {
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
             )}
-          <Form className="login-form" onSubmit={this.handleSubmit}>
+          <Form className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [
@@ -277,12 +275,12 @@ class Login extends Component<LoginProps, LoginState> {
               <FormattedMessage id="user-login.login.remember-me" />
             </Checkbox>
             <Button
-              className="antd-pro-login-submit"
+              className="smallbun-login-submit"
               type="primary"
               size="large"
               block
               loading={submitting}
-              htmlType="submit"
+              onClick={this.handleSubmit}
             >
               <FormattedMessage id="user-login.login.login" />
             </Button>
