@@ -79,7 +79,7 @@ class Login extends Component<LoginProps, LoginState> {
   /**
    * 确定
    */
-  handleSubmit = (e: React.FormEvent) => {
+  handleSubmit = (e?: React.FormEvent) => {
     const { secret, key, autoLogin, captchaLoading } = this.state;
     const {
       form,
@@ -88,7 +88,7 @@ class Login extends Component<LoginProps, LoginState> {
     } = this.props;
     // 验证码没加载出来之前,不能提交
     if (captchaLoading) return;
-    e.preventDefault();
+    if (e) e.preventDefault();
     form.validateFields((err, values) => {
       if (err) return;
       // 处理密码加密
@@ -231,7 +231,7 @@ class Login extends Component<LoginProps, LoginState> {
                     const { form } = this.props;
                     e.preventDefault();
                     if (form) {
-                      form.validateFields(this.handleSubmit);
+                      this.handleSubmit();
                     }
                   }}
                 />,
@@ -257,7 +257,7 @@ class Login extends Component<LoginProps, LoginState> {
                         const { form } = this.props;
                         e.preventDefault();
                         if (form) {
-                          form.validateFields(this.handleSubmit);
+                          this.handleSubmit();
                         }
                       }}
                     />,
