@@ -116,7 +116,7 @@ const UserModel: UserModelType = {
     },
     *submit({ payload, callback }, { call, select, put }) {
       // 获取state
-      const type: Open = yield select((state: any) => state.users.form.type);
+      const type: Open = yield select((state: any) => state.user.form.type);
       let response: Result<boolean> = { message: '', status: Status.EX900001, result: [] };
       // 新增
       if (type === Open.ADD) {

@@ -1,9 +1,11 @@
 export default {
-  'user-login.login.userName': 'userName',
-  'user-login.login.password': 'password',
-  'user-login.login.message-invalid-credentials':
-    'Invalid username or password（admin/ant.design）',
+  'user-login.login.userName': 'please enter userName',
+  'user-login.login.password': 'please enter password',
+  'user-login.login.captcha': 'please enter verification code',
+  'user-login.login.message-invalid-credentials': 'Invalid username or password',
   'user-login.login.message-invalid-verification-code': 'Invalid verification code',
+  'user-login.login.message-user-is-disabled': 'User is disabled',
+  'user-login.login.message-user-is-locked': 'User is locked',
   'user-login.login.tab-login-credentials': 'Credentials',
   'user-login.login.tab-login-mobile': 'Mobile number',
   'user-login.login.remember-me': 'Remember me',

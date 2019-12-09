@@ -81,10 +81,7 @@ class Login extends Component<LoginProps, LoginState> {
    */
   handleSubmit = (e?: React.FormEvent) => {
     const { secret, key, autoLogin, captchaLoading } = this.state;
-    const {
-      form,
-      dispatch,
-    } = this.props;
+    const { form, dispatch } = this.props;
     // 验证码没加载出来之前,不能提交
     if (captchaLoading) return;
     if (e) e.preventDefault();
@@ -106,7 +103,7 @@ class Login extends Component<LoginProps, LoginState> {
             notification.close('notification');
           }
           /** 验证码错误 */
-          if (response.status === Status.EX000103) {
+          if (response.status === Status.EX000102) {
             // 设置错误
             form.setFields({
               captcha: {
@@ -121,8 +118,8 @@ class Login extends Component<LoginProps, LoginState> {
             // 刷新验证码
             this.onGetCaptcha();
           }
-          /** 账户或密码错误 */
-          if (response.status === Status.EX000102) {
+          /** 账户或密码错误,用户被禁用 */
+          if (response.status === Status.EX000101 || response.status === Status.EX000104) {
             // 刷新验证码
             this.onGetCaptcha();
           }
@@ -188,11 +185,20 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <div className={styles.main}>
-          {(status === Status.EX000102 || status === Status.EX900005) &&
+          {/* 用户名密码错误、秘钥过期、 */}
+          {(status === Status.EX000101 || status === Status.EX900005) &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
             )}
+          {/* 用户被禁用 */}
+          {status === Status.EX000104 &&
+            !submitting &&
+            this.renderMessage(formatMessage({ id: 'user-login.login.message-user-is-disabled' }))}
+          {/* 用户被锁定 */}
+          {status === Status.EX000103 &&
+            !submitting &&
+            this.renderMessage(formatMessage({ id: 'user-login.login.message-user-is-locked' }))}
           <Form className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
