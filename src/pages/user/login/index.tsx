@@ -36,8 +36,6 @@ interface LoginState {
   submitting: loading.effects['login/login'],
 }))
 class Login extends Component<LoginProps, LoginState> {
-  loginForm: FormComponentProps['form'] | undefined | null = undefined;
-
   state: LoginState = {
     autoLogin: true,
     captchaLoading: true,
@@ -106,7 +104,7 @@ class Login extends Component<LoginProps, LoginState> {
           /** 成功 */
           if (status === Status.SUCCESS) {
             // 关闭弹框
-            notification.close('notification');
+            notification.destroy();
           }
           /** 验证码错误 */
           if (response.status === Status.EX000103) {
@@ -230,9 +228,10 @@ class Login extends Component<LoginProps, LoginState> {
                   autoComplete="off"
                   placeholder={`${formatMessage({ id: 'user-login.login.password' })}`}
                   onPressEnter={e => {
+                    const { form } = this.props;
                     e.preventDefault();
-                    if (this.loginForm) {
-                      this.loginForm.validateFields(this.handleSubmit);
+                    if (form) {
+                      form.validateFields(this.handleSubmit);
                     }
                   }}
                 />,
@@ -254,6 +253,13 @@ class Login extends Component<LoginProps, LoginState> {
                       prefix={<Icon type="safety" style={{ color: 'rgba(0,0,0,.25)' }} />}
                       autoComplete="off"
                       placeholder={`${formatMessage({ id: 'user-login.login.captcha' })}`}
+                      onPressEnter={e => {
+                        const { form } = this.props;
+                        e.preventDefault();
+                        if (form) {
+                          form.validateFields(this.handleSubmit);
+                        }
+                      }}
                     />,
                   )}
                 </Col>
@@ -280,6 +286,7 @@ class Login extends Component<LoginProps, LoginState> {
               size="large"
               block
               loading={submitting}
+              htmlType="submit"
               onClick={this.handleSubmit}
             >
               <FormattedMessage id="user-login.login.login" />
@@ -291,4 +298,4 @@ class Login extends Component<LoginProps, LoginState> {
   }
 }
 
-export default Form.create()(Login);
+export default Form.create<LoginProps>()(Login);
