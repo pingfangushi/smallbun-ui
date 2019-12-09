@@ -118,14 +118,18 @@ class Login extends Component<LoginProps, LoginState> {
             // 刷新验证码
             this.onGetCaptcha();
           }
-          /** 账户或密码错误,用户被禁用 */
-          if (response.status === Status.EX000101 || response.status === Status.EX000104) {
+          /** 账户或密码错误,用户被禁用，用户被锁定 */
+          if (
+            response.status === Status.EX000101 ||
+            response.status === Status.EX000103 ||
+            response.status === Status.EX000104
+          ) {
             // 刷新验证码
             this.onGetCaptcha();
           }
           /** 数字签名错误  */
           if (response.status === Status.EX900005) {
-            // 刷新秘钥验证码
+            // 刷新秘钥和验证码
             this.getPublicSecret(this.onGetCaptcha);
           }
         },
