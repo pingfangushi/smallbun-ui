@@ -7,5 +7,5 @@ export enum UserStatus {
   // 禁用
   DISABLE = 'DISABLE',
   // 冻结
-  FREEZE = 'FREEZE',
+  LOCKED = 'LOCKED',
 }

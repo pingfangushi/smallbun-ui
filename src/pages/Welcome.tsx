@@ -81,7 +81,7 @@ export default (): React.ReactNode => (
         </span>
         <br />
         <span role="img" aria-label="">
-          🚀新后端技术栈：使用 SpringBoot/SpringSecurity/Mybatis Plus/Liquibase/HikariCP/Redis/Maven
+          ⚡新后端技术栈：使用 SpringBoot/SpringSecurity/Mybatis Plus/Liquibase/HikariCP/Redis/Maven
           等后端前沿技术开发
         </span>
         <br />

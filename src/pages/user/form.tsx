@@ -235,7 +235,7 @@ class UserForm extends React.PureComponent<UserFormProps> {
                     <Radio key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
                       禁用
                     </Radio>
-                    <Radio key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
+                    <Radio key={UserStatus.LOCKED} value={UserStatus.LOCKED}>
                       冻结
                     </Radio>
                   </RadioGroup>,

@@ -165,7 +165,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
         if (text === UserStatus.DISABLE) {
           return <Tag color="volcano">禁用</Tag>;
         }
-        if (text === UserStatus.FREEZE) {
+        if (text === UserStatus.LOCKED) {
           return <Tag color="red">冻结</Tag>;
         }
         return <></>;
@@ -334,7 +334,7 @@ class Index extends PureComponent<TableListProps, TableListState> {
                     <Option key={UserStatus.DISABLE} value={UserStatus.DISABLE}>
                       禁用
                     </Option>
-                    <Option key={UserStatus.FREEZE} value={UserStatus.FREEZE}>
+                    <Option key={UserStatus.LOCKED} value={UserStatus.LOCKED}>
                       冻结
                     </Option>
                   </Select>,
