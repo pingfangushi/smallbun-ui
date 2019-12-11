@@ -6,6 +6,7 @@ export default {
   'user-login.login.message-invalid-verification-code': '验证码错误',
   'user-login.login.message-user-is-disabled': '用户被禁用',
   'user-login.login.message-user-is-locked': '用户被锁定',
+  'user-login.login.message-user-does-not-have-permission': '用户没有可用权限',
   'user-login.login.tab-login-credentials': '账户密码登录',
   'user-login.login.tab-login-mobile': '手机号登录',
   'user-login.login.remember-me': '自动登录',

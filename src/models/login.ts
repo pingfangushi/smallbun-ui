@@ -10,7 +10,13 @@ import { getPageQuery } from '@/utils/utils';
 import { Result, Status } from '@/pages/typings';
 
 export interface StateType {
-  status?: Status.SUCCESS | Status.EX000101 | Status.EX900005 | Status.EX000104 | Status.EX000103;
+  status?:
+    | Status.SUCCESS
+    | Status.EX000101
+    | Status.EX900005
+    | Status.EX000104
+    | Status.EX000103
+    | Status.EX000105;
   currentAuthority?: any;
 }
 

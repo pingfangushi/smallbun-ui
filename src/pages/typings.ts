@@ -41,6 +41,8 @@ export enum Status {
   EX000104 = '000104',
   // 用户被锁定
   EX000103 = '000103',
+  // 用户没有可用权限
+  EX000105 = '000105',
 }
 
 export interface BaseResult {

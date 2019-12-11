@@ -122,7 +122,8 @@ class Login extends Component<LoginProps, LoginState> {
           if (
             response.status === Status.EX000101 ||
             response.status === Status.EX000103 ||
-            response.status === Status.EX000104
+            response.status === Status.EX000104 ||
+            response.status === Status.EX000105
           ) {
             // 刷新验证码
             this.onGetCaptcha();
@@ -203,6 +204,12 @@ class Login extends Component<LoginProps, LoginState> {
           {status === Status.EX000103 &&
             !submitting &&
             this.renderMessage(formatMessage({ id: 'user-login.login.message-user-is-locked' }))}
+          {/* 用户没有可用权限 */}
+          {status === Status.EX000105 &&
+            !submitting &&
+            this.renderMessage(
+              formatMessage({ id: 'user-login.login.message-user-does-not-have-permission' }),
+            )}
           <Form className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {

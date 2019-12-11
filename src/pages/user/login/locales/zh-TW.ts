@@ -6,6 +6,7 @@ export default {
   'user-login.login.message-invalid-verification-code': '驗證碼錯誤',
   'user-login.login.message-user-is-disabled': '用戶被禁用',
   'user-login.login.message-user-is-locked': '用戶被鎖定',
+  'user-login.login.message-user-does-not-have-permission': '用戶沒有可用權限',
   'user-login.login.tab-login-credentials': '賬戶密碼登錄',
   'user-login.login.tab-login-mobile': '手機號登錄',
   'user-login.login.remember-me': '自動登錄',
