@@ -117,7 +117,7 @@ class Index extends React.Component<TableListProps, TableListState> {
             <Popconfirm
               className={style.openButton}
               style={{ marginLeft: 70, clear: 'both', whiteSpace: 'nowrap' }}
-              title={formatMessage({ id: 'del.confirm.title' })}
+              title={formatMessage({ id: 'authority.del.confirm.title' })}
               placement="bottomLeft"
               onConfirm={() => {
                 this.removeOnClick([text.id]);
@@ -240,14 +240,14 @@ class Index extends React.Component<TableListProps, TableListState> {
       <div className={style.searchForm}>
         <Form layout="inline" onSubmit={this.handleSearch}>
           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-           <Col xs={24} sm={24} md={8} xxl={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <FormItem label="业务名称">
                 {getFieldDecorator('name')(
                   <Input autoComplete="off" allowClear placeholder="请输入业务名称" />,
                 )}
               </FormItem>
             </Col>
-           <Col xs={24} sm={24} md={8} xxl={6}>
+            <Col xs={24} sm={24} md={8} xxl={6}>
               <span className={style.submitButtons}>
                 <Button type="primary" htmlType="submit">
                   查询
