@@ -11,7 +11,7 @@ import { connect } from 'dva';
 import { StateType } from '@/models/login';
 import styles from './style.less';
 import { ConnectState } from '@/models/connect';
-import { Status } from '@/pages/typings';
+import { UserLoginStatus } from '@/pages/user/typings';
 
 interface LoginProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -98,12 +98,12 @@ class Login extends Component<LoginProps, LoginState> {
         payload: { ...values, password, key, rememberMe: autoLogin },
         callback: (response: any) => {
           /** 成功 */
-          if (response.status === Status.SUCCESS) {
+          if (response.status === UserLoginStatus.SUCCESS) {
             // 关闭弹框
             notification.close('notification');
           }
           /** 验证码错误 */
-          if (response.status === Status.EX000102) {
+          if (response.status === UserLoginStatus.EX000102) {
             // 设置错误
             form.setFields({
               captcha: {
@@ -120,18 +120,20 @@ class Login extends Component<LoginProps, LoginState> {
           }
           /** 账户或密码错误,用户被禁用，用户被锁定 */
           if (
-            response.status === Status.EX000101 ||
-            response.status === Status.EX000103 ||
-            response.status === Status.EX000104 ||
-            response.status === Status.EX000105
+            response.status === UserLoginStatus.EX000101 ||
+            response.status === UserLoginStatus.EX000103 ||
+            response.status === UserLoginStatus.EX000104 ||
+            response.status === UserLoginStatus.EX000105
           ) {
             // 刷新验证码
             this.onGetCaptcha();
           }
           /** 数字签名错误  */
-          if (response.status === Status.EX900005) {
+          if (response.status === UserLoginStatus.EX900005) {
             // 刷新秘钥和验证码
-            this.getPublicSecret(this.onGetCaptcha);
+            this.getPublicSecret();
+            // 重新提交
+            this.handleSubmit(e);
           }
         },
       });
@@ -162,15 +164,17 @@ class Login extends Component<LoginProps, LoginState> {
   /**
    * 获取登录秘钥
    */
-  getPublicSecret = (callback: () => void) => {
+  getPublicSecret = (callback?: () => void) => {
     const { dispatch } = this.props;
     // 获取公钥
     dispatch({
       type: 'login/getPublicSecret',
       callback: (value: { secret: string; key: string }) => {
         this.setState({ secret: value.secret, key: value.key });
-        // 调用验证码
-        callback();
+        if (callback) {
+          // 调用验证码
+          callback();
+        }
       },
     });
   };
@@ -190,25 +194,31 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <div className={styles.main}>
-          {/* 用户名密码错误、秘钥过期、 */}
-          {(status === Status.EX000101 || status === Status.EX900005) &&
+          {/* 用户名密码错误 */}
+          {status === UserLoginStatus.EX000101 &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
             )}
           {/* 用户被禁用 */}
-          {status === Status.EX000104 &&
+          {status === UserLoginStatus.EX000104 &&
             !submitting &&
             this.renderMessage(formatMessage({ id: 'user-login.login.message-user-is-disabled' }))}
           {/* 用户被锁定 */}
-          {status === Status.EX000103 &&
+          {status === UserLoginStatus.EX000103 &&
             !submitting &&
             this.renderMessage(formatMessage({ id: 'user-login.login.message-user-is-locked' }))}
           {/* 用户没有可用权限 */}
-          {status === Status.EX000105 &&
+          {status === UserLoginStatus.EX000105 &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-user-does-not-have-permission' }),
+            )}
+          {/* 没有用户 */}
+          {status === UserLoginStatus.EX000107 &&
+            !submitting &&
+            this.renderMessage(
+              formatMessage({ id: 'user-login.login.message-user-does-not-exist' }),
             )}
           <Form className="login-form">
             <Form.Item>

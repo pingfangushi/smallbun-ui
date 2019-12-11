@@ -7,6 +7,7 @@ export default {
   'user-login.login.message-user-is-disabled': 'User is disabled',
   'user-login.login.message-user-is-locked': 'User is locked',
   'user-login.login.message-user-does-not-have-permission': 'User does not have permission',
+  'user-login.login.message-user-does-not-exist': 'User does not exist',
   'user-login.login.tab-login-credentials': 'Credentials',
   'user-login.login.tab-login-mobile': 'Mobile number',
   'user-login.login.remember-me': 'Remember me',

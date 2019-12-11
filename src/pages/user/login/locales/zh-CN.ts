@@ -7,6 +7,7 @@ export default {
   'user-login.login.message-user-is-disabled': '用户被禁用',
   'user-login.login.message-user-is-locked': '用户被锁定',
   'user-login.login.message-user-does-not-have-permission': '用户没有可用权限',
+  'user-login.login.message-user-does-not-exist': '用户不存在',
   'user-login.login.tab-login-credentials': '账户密码登录',
   'user-login.login.tab-login-mobile': '手机号登录',
   'user-login.login.remember-me': '自动登录',
