@@ -12,6 +12,7 @@ import { StateType } from '@/models/login';
 import styles from './style.less';
 import { ConnectState } from '@/models/connect';
 import { UserLoginStatus } from '@/pages/user/typings';
+import Technology from '@/assets/ade5b70f.jpg';
 
 interface LoginProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -50,11 +51,7 @@ class Login extends Component<LoginProps, LoginState> {
       duration: null,
       description: (
         <div style={{ textAlign: 'center' }}>
-          <img
-            src="https://smallbun.oss-cn-hangzhou.aliyuncs.com/liaojishu.jpg"
-            alt=""
-            style={{ height: '250px' }}
-          />
+          <img src={Technology} alt="" style={{ height: '250px' }} />
           <p style={{ fontSize: '16px' }}>
             <span style={{ color: '#1890FF' }}>关注公众号</span>，回复
             <span style={{ color: '#ff4626' }}>口令</span>，获取账号密码
@@ -131,9 +128,7 @@ class Login extends Component<LoginProps, LoginState> {
           /** 数字签名错误  */
           if (response.status === UserLoginStatus.EX900005) {
             // 刷新秘钥和验证码
-            this.getPublicSecret();
-            // 重新提交
-            this.handleSubmit(e);
+            this.getPublicSecret(this.onGetCaptcha);
           }
         },
       });
@@ -164,17 +159,15 @@ class Login extends Component<LoginProps, LoginState> {
   /**
    * 获取登录秘钥
    */
-  getPublicSecret = (callback?: () => void) => {
+  getPublicSecret = (callback: () => void) => {
     const { dispatch } = this.props;
     // 获取公钥
     dispatch({
       type: 'login/getPublicSecret',
       callback: (value: { secret: string; key: string }) => {
         this.setState({ secret: value.secret, key: value.key });
-        if (callback) {
-          // 调用验证码
-          callback();
-        }
+        // 调用验证码
+        callback();
       },
     });
   };
@@ -194,8 +187,8 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <React.Fragment>
         <div className={styles.main}>
-          {/* 用户名密码错误 */}
-          {status === UserLoginStatus.EX000101 &&
+          {/* 用户名密码错误、秘钥过期按照密码错误来、 */}
+          {(status === UserLoginStatus.EX000101 || status === UserLoginStatus.EX900005) &&
             !submitting &&
             this.renderMessage(
               formatMessage({ id: 'user-login.login.message-invalid-credentials' }),
