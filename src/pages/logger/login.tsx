@@ -185,7 +185,7 @@ class LoginLogger extends React.Component<LoginTableListProps, LoginTableListSta
           {/* 搜索框 */}
           {this.searchForm()}
           {/* 操作按钮 */}
-          <Empty onClick={this.emptyOnClick} authority="manage:operate:logger:remove" />
+          <Empty onClick={this.emptyOnClick} authority="manage:logger:remove" />
           {/* 表格 */}
           <StandardTable<LoginTableListItem>
             data={data}

@@ -11,7 +11,7 @@ export interface LoginParamsType {
  * @param params
  */
 export async function accountLogin(params: LoginParamsType) {
-  return request('/upms/api/account/login', {
+  return request('/manage/api/account/login', {
     method: 'POST',
     data: params,
   });
@@ -21,7 +21,7 @@ export async function accountLogin(params: LoginParamsType) {
  * 获取图片验证码
  */
 export async function getImageCaptcha(params: {}) {
-  return request('/upms/api/image_captcha', {
+  return request('/manage/api/image_captcha', {
     params,
   });
 }
@@ -30,5 +30,5 @@ export async function getImageCaptcha(params: {}) {
  * 获取公钥
  */
 export async function getPublicSecret() {
-  return request('/upms/api/public_secret');
+  return request('/manage/api/public_secret');
 }

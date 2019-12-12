@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 /* 新增 */
 export async function add(params: any) {
-  return request('/upms/api/notice', {
+  return request('/manage/api/notice', {
     method: 'POST',
     data: params,
   });
@@ -10,7 +10,7 @@ export async function add(params: any) {
 
 /* 删除 */
 export async function del(params: any) {
-  return request('/upms/api/notice', {
+  return request('/manage/api/notice', {
     method: 'DELETE',
     data: params,
   });
@@ -18,7 +18,7 @@ export async function del(params: any) {
 
 /* 修改 */
 export async function edit(params: any) {
-  return request('/upms/api/notice', {
+  return request('/manage/api/notice', {
     method: 'PUT',
     data: params,
   });
@@ -26,7 +26,7 @@ export async function edit(params: any) {
 
 /* 查询全部 */
 export async function list(params: any) {
-  return request('/upms/api/notice', {
+  return request('/manage/api/notice', {
     method: 'GET',
     data: params,
   });
@@ -34,7 +34,7 @@ export async function list(params: any) {
 
 /* 分页查询 */
 export async function page(params: any) {
-  return request('/upms/api/notice/page', {
+  return request('/manage/api/notice/page', {
     method: 'GET',
     data: params,
   });

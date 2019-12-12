@@ -231,7 +231,7 @@ class OperateLogger extends React.Component<OperateTableListProps, OperateTableL
           {/* 搜索框 */}
           {this.searchForm()}
           {/* 操作按钮 */}
-          <Empty onClick={this.emptyOnClick} authority="manage:operate:logger:remove" />
+          <Empty onClick={this.emptyOnClick} authority="manage:logger:remove" />
           {/* 表格 */}
           <StandardTable<OperateTableListItem>
             data={data}

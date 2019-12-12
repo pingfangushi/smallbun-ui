@@ -6,7 +6,7 @@ import { SearchParams } from '@/pages/role/data.d';
  * @param params
  */
 export async function unique(params: {}) {
-  return request('/upms/api/role/unique', {
+  return request('/manage/api/role/unique', {
     params,
   });
 }
@@ -16,7 +16,7 @@ export async function unique(params: {}) {
  * @param params
  */
 export async function getPage(params: SearchParams) {
-  return request('/upms/api/role', {
+  return request('/manage/api/role', {
     params,
   });
 }
@@ -25,14 +25,14 @@ export async function getPage(params: SearchParams) {
  * @param id
  */
 export async function getRoleAuth(id: string) {
-  return request(`/upms/api/role/auth/${id}`);
+  return request(`/manage/api/role/auth/${id}`);
 }
 /**
  * 根据ID获取角色
  * @param id
  */
 export async function getById(id: string) {
-  return request(`/upms/api/role/${id}`);
+  return request(`/manage/api/role/${id}`);
 }
 
 /**
@@ -40,7 +40,7 @@ export async function getById(id: string) {
  * @param params
  */
 export async function add(params: {}) {
-  return request('/upms/api/role', {
+  return request('/manage/api/role', {
     method: 'POST',
     data: params,
   });
@@ -51,7 +51,7 @@ export async function add(params: {}) {
  * @param params
  */
 export async function update(params: {}) {
-  return request('/upms/api/role', {
+  return request('/manage/api/role', {
     method: 'PUT',
     data: params,
   });
@@ -66,7 +66,7 @@ export async function updateAuthorize(params: {
   auth: string;
   checked: boolean;
 }) {
-  return request('/upms/api/role/update/authorize', {
+  return request('/manage/api/role/update/authorize', {
     method: 'PUT',
     data: params,
   });
@@ -76,7 +76,7 @@ export async function updateAuthorize(params: {
  * @param params
  */
 export async function removeByIds(params: { ids: [] }) {
-  return request(`/upms/api/role/${new Array(params.ids).join(',').toString()}`, {
+  return request(`/manage/api/role/${new Array(params.ids).join(',').toString()}`, {
     method: 'DELETE',
   });
 }
@@ -85,7 +85,7 @@ export async function removeByIds(params: { ids: [] }) {
  * @param params
  */
 export async function updateStatusById(params: { id: string; status: string }) {
-  return request(`/upms/api/role/${params.id}/status/${params.status}`, {
+  return request(`/manage/api/role/${params.id}/status/${params.status}`, {
     method: 'PUT',
   });
 }

@@ -8,7 +8,7 @@ import { Result, Status } from '@/pages/typings';
  */
 export function render(oldRender: () => void) {
   // get dict
-  fetch('/upms/api/dict')
+  fetch('/manage/api/dict')
     .then(result => result.json())
     .then((result: Result<object>) => {
       if (result.status === Status.SUCCESS) {

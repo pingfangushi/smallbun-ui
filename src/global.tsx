@@ -17,7 +17,7 @@ if (pwa) {
     const e = event as CustomEvent;
     const reloadSW = async () => {
       // Check if there is sw whose state is waiting in ServiceWorkerRegistration
-      // https://developer.mozilla.org/en-US/docs/Web/upms/api/ServiceWorkerRegistration
+      // https://developer.mozilla.org/en-US/docs/Web/manage/api/ServiceWorkerRegistration
       const worker = e.detail && e.detail.waiting;
       if (!worker) {
         return true;
