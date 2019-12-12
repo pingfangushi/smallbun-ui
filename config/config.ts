@@ -216,5 +216,5 @@ export default {
       },
     },
   },
-  publicPath: 'http://resource.leshalv.com/website/',
+  //publicPath: '',
 } as IConfig;
