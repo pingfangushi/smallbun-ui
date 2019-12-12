@@ -149,30 +149,6 @@ export default {
               ],
             },
             {
-              path: 'develop',
-              name: 'develop',
-              icon: 'tool',
-              routes: [
-                {
-                  name: 'api',
-                  path: 'http://localhost:8080/doc.html',
-                  target: '_blank', // 点击新窗口打开
-                },
-              ],
-            },
-            {
-              name: 'doc',
-              icon: 'read',
-              path: 'https://pro.ant.design',
-              target: '_blank', // 点击新窗口打开
-            },
-            {
-              path: '/blog',
-              name: 'blog',
-              icon: 'thunderbolt',
-              component: './Blog',
-            },
-            {
               component: './404',
             },
           ],
