@@ -1,24 +1,23 @@
 import request from '@/utils/request';
 
 export async function query(): Promise<any> {
-  return request('/api/users');
+  return request('/upms/api/users');
 }
 
 export async function queryCurrent(): Promise<any> {
-  return request('/api/account');
+  return request('/upms/api/account');
 }
 
 export async function queryNotices(): Promise<any> {
-  return request('/api/notices');
+  return request('/upms/api/notices');
 }
-
 
 /**
  * 唯一验证
  * @param params
  */
 export async function unique(params: {}) {
-  return request('/api/user/unique', {
+  return request('/upms/api/user/unique', {
     params,
   });
 }
@@ -28,7 +27,7 @@ export async function unique(params: {}) {
  * @param params
  */
 export async function getPage(params: {}) {
-  return request('/api/user', {
+  return request('/upms/api/user', {
     params,
   });
 }
@@ -38,7 +37,7 @@ export async function getPage(params: {}) {
  * @param id
  */
 export async function getById(id: string) {
-  return request(`/api/user/${id}`);
+  return request(`/upms/api/user/${id}`);
 }
 
 /**
@@ -46,7 +45,7 @@ export async function getById(id: string) {
  * @param params
  */
 export async function add(params: {}) {
-  return request('/api/user', {
+  return request('/upms/api/user', {
     method: 'POST',
     data: params,
   });
@@ -57,7 +56,7 @@ export async function add(params: {}) {
  * @param params
  */
 export async function updateById(params: {}) {
-  return request('/api/user', {
+  return request('/upms/api/user', {
     method: 'PUT',
     data: params,
   });
@@ -67,7 +66,7 @@ export async function updateById(params: {}) {
  * @param params
  */
 export async function updatePassword(params: {}) {
-  return request('/api/user/password', {
+  return request('/upms/api/user/password', {
     method: 'PUT',
     data: params,
   });
@@ -77,7 +76,7 @@ export async function updatePassword(params: {}) {
  * @param params
  */
 export async function removeByIds(params: { ids: [] }) {
-  return request(`/api/user/${new Array(params.ids).join(',').toString()}`, {
+  return request(`/upms/api/user/${new Array(params.ids).join(',').toString()}`, {
     method: 'DELETE',
   });
 }
@@ -86,7 +85,7 @@ export async function removeByIds(params: { ids: [] }) {
  * @param params
  */
 export async function updateStatusById(params: { id: string; status: string }) {
-  return request(`/api/user/${params.id}/status/${params.status}`, {
+  return request(`/upms/api/user/${params.id}/status/${params.status}`, {
     method: 'PUT',
   });
 }

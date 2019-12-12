@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param params
  */
 export async function unique(params: {}) {
-  return request('/api/group/unique', {
+  return request('/upms/api/group/unique', {
     params,
   });
 }
@@ -15,7 +15,7 @@ export async function unique(params: {}) {
  * @param params
  */
 export async function getTree(params: {}) {
-  return request('/api/group/tree', {
+  return request('/upms/api/group/tree', {
     params,
   });
 }
@@ -25,7 +25,7 @@ export async function getTree(params: {}) {
  * @param params
  */
 export async function getList(params: {}) {
-  return request('/api/group', {
+  return request('/upms/api/group', {
     params,
   });
 }
@@ -35,7 +35,7 @@ export async function getList(params: {}) {
  * @param id
  */
 export async function getById(id: string) {
-  return request(`/api/group/${id}`);
+  return request(`/upms/api/group/${id}`);
 }
 
 /**
@@ -43,7 +43,7 @@ export async function getById(id: string) {
  * @param params
  */
 export async function add(params: {}) {
-  return request('/api/group', {
+  return request('/upms/api/group', {
     method: 'POST',
     data: params,
   });
@@ -54,7 +54,7 @@ export async function add(params: {}) {
  * @param params
  */
 export async function updateById(params: {}) {
-  return request('/api/group', {
+  return request('/upms/api/group', {
     method: 'PUT',
     data: params,
   });
@@ -65,7 +65,7 @@ export async function updateById(params: {}) {
  * @param params
  */
 export async function removeByIds(params: { ids: [] }) {
-  return request(`/api/group/${new Array(params.ids).join(',')}`, {
+  return request(`/upms/api/group/${new Array(params.ids).join(',')}`, {
     method: 'DELETE',
     data: params,
   });
@@ -75,7 +75,7 @@ export async function removeByIds(params: { ids: [] }) {
  * @param params
  */
 export async function updateStatusById(params: { id: string; status: string }) {
-  return request(`/api/group/${params.id}/status/${params.status}`, {
+  return request(`/upms/api/group/${params.id}/status/${params.status}`, {
     method: 'PUT',
   });
 }

@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param params
  */
 export async function unique(params: {}) {
-  return request('/api/authority/unique', {
+  return request('/upms/api/authority/unique', {
     params,
   });
 }
@@ -15,7 +15,7 @@ export async function unique(params: {}) {
  * @param params
  */
 export async function getPage(params: {}) {
-  return request('/api/authority', {
+  return request('/upms/api/authority', {
     params,
   });
 }
@@ -25,7 +25,7 @@ export async function getPage(params: {}) {
  * @param id
  */
 export async function getById(id: string) {
-  return request(`/api/authority/${id}`);
+  return request(`/upms/api/authority/${id}`);
 }
 
 /**
@@ -33,7 +33,7 @@ export async function getById(id: string) {
  * @param params
  */
 export async function add(params: {}) {
-  return request('/api/authority', {
+  return request('/upms/api/authority', {
     method: 'POST',
     data: params,
   });
@@ -44,7 +44,7 @@ export async function add(params: {}) {
  * @param params
  */
 export async function updateById(params: {}) {
-  return request('/api/authority', {
+  return request('/upms/api/authority', {
     method: 'PUT',
     data: params,
   });
@@ -55,7 +55,7 @@ export async function updateById(params: {}) {
  * @param params
  */
 export async function removeByIds(params: { ids: [] }) {
-  return request(`/api/authority/${new Array(params.ids).join(',').toString()}`, {
+  return request(`/upms/api/authority/${new Array(params.ids).join(',').toString()}`, {
     method: 'DELETE',
   });
 }
@@ -64,7 +64,7 @@ export async function removeByIds(params: { ids: [] }) {
  * @param params
  */
 export async function updateItemById(params: {}) {
-  return request('/api/authority/item', {
+  return request('/upms/api/authority/item', {
     method: 'PUT',
     data: params,
   });
@@ -74,7 +74,7 @@ export async function updateItemById(params: {}) {
  * @param params
  */
 export async function addItem(params: {}) {
-  return request('/api/authority/item', {
+  return request('/upms/api/authority/item', {
     method: 'POST',
     data: params,
   });
@@ -84,7 +84,7 @@ export async function addItem(params: {}) {
  * @param params
  */
 export async function getItemList(params: {}) {
-  return request('/api/authority/item', {
+  return request('/upms/api/authority/item', {
     params,
   });
 }
@@ -93,7 +93,7 @@ export async function getItemList(params: {}) {
  * @param params
  */
 export async function uniqueItem(params: {}) {
-  return request('/api/authority/item/unique', {
+  return request('/upms/api/authority/item/unique', {
     params,
   });
 }
@@ -102,7 +102,7 @@ export async function uniqueItem(params: {}) {
  * @param params
  */
 export async function removeItemByIds(params: { ids: [] }) {
-  return request(`/api/authority/item/${new Array(params.ids).join(',').toString()}`, {
+  return request(`/upms/api/authority/item/${new Array(params.ids).join(',').toString()}`, {
     method: 'DELETE',
   });
 }

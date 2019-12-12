@@ -101,5 +101,5 @@ const getNotices = (req: Request, res: Response) => {
 };
 
 export default {
-  'GET /api/notices': getNotices,
+  'GET /upms/api/notices': getNotices,
 };
