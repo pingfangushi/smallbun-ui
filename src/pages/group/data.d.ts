@@ -18,6 +18,7 @@ export interface TableListItem {
   code?: string;
   type?: number | string;
   status?: number | string;
+  sort?: number | string;
   children?: TableListItem[];
 }
 
@@ -61,6 +62,7 @@ export interface FormItemFields {
   type?: number;
   status?: number | string;
   remarks?: string;
+  sort?: string;
 }
 
 /**

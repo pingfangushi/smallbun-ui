@@ -1,4 +1,14 @@
-import { Form, Input, message, notification, Select, TreeSelect, Modal, Button } from 'antd';
+import {
+  Form,
+  Input,
+  message,
+  notification,
+  Select,
+  TreeSelect,
+  Modal,
+  Button,
+  InputNumber,
+} from 'antd';
 import * as React from 'react';
 import { FormComponentProps } from 'antd/es/form';
 import { Action, Dispatch } from 'redux';
@@ -208,6 +218,7 @@ class OrgForm extends React.Component<OrgFormProps> {
             })(
               <TreeSelect<string>
                 showSearch
+                treeDefaultExpandAll
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 placeholder="请选择上级机构"
                 treeNodeFilterProp="name"
@@ -239,6 +250,9 @@ class OrgForm extends React.Component<OrgFormProps> {
                   ))}
               </Select>,
             )}
+          </Form.Item>
+          <Form.Item label="排序">
+            {getFieldDecorator('sort', { initialValue: fields.sort || 9999 })(<InputNumber />)}
           </Form.Item>
           <Form.Item label="备注">
             {getFieldDecorator('remarks', { initialValue: fields.remarks })(

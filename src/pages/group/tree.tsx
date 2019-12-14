@@ -42,7 +42,11 @@ class OrgSearchTree extends React.PureComponent<OrgTreeSearchProps> {
       group: { tree },
     } = this.props;
     return tree && tree.length ? (
-      <Card title={this.props.title} bordered={false} style={{ height: this.props.height }}>
+      <Card
+        title={this.props.title}
+        bordered={false}
+        style={{ height: this.props.height, overflow: 'auto' }}
+      >
         <SearchTree
           placeholder={this.props.placeholder}
           searchValue={this.props.searchValue}
