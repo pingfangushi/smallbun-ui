@@ -476,7 +476,7 @@ class PassWord extends React.PureComponent<SetPassWordProps> {
 
   compareToFirstPassword = (rule: any, value: any, callback: any) => {
     const { form } = this.props;
-    if (value && value !== form.getFieldValue('passwordHash')) {
+    if (value && value !== form.getFieldValue('password')) {
       callback('您输入的两个密码不一致');
     } else {
       callback();
