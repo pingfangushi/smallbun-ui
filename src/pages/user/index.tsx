@@ -387,10 +387,8 @@ class Index extends PureComponent<TableListProps, TableListState> {
                 placeholder="请输入组织名称"
                 searchValue=""
                 title="组织机构"
-                onSelect={(value: string[], e: any) => {
-                  const nodes: string[] = e.node.getNodeChildren().map((i: any) => i.key);
-                  nodes.unshift(...value);
-                  this.onSelect(nodes);
+                onSelect={(value: string[]) => {
+                  this.onSelect(value);
                 }}
               />
             </Col>

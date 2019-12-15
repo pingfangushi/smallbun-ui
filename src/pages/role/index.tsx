@@ -18,7 +18,6 @@ import {
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { ColumnProps } from 'antd/lib/table';
-import moment from 'moment';
 import RoleForm from './form';
 import { StateType } from '@/models/role';
 import { TableListItem } from './data.d';
@@ -121,7 +120,6 @@ class Index extends React.Component<TableListProps, TableListState> {
       title: '创建时间',
       dataIndex: 'createTime',
       align: 'center',
-      render: (val: string) => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',

@@ -216,5 +216,5 @@ export default {
       },
     },
   },
-  //publicPath: '',
+  publicPath: 'http://www.resources.smallbun.cn/preview/',
 } as IConfig;
