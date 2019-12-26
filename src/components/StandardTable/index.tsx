@@ -103,6 +103,7 @@ class StandardTable<T> extends Component<StandardTableProps<T>, StandardTableSta
       ? {
           showSizeChanger: true,
           showQuickJumper: true,
+          showTotal: (total: number) => `共 ${total} 条`,
           ...pagination,
         }
       : false;
