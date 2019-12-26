@@ -1,7 +1,8 @@
-import { Table, Alert } from 'antd';
-import { TableRowSelection, TableProps } from 'antd/es/table';
+import { Alert, Table } from 'antd';
+import { TableProps, TableRowSelection } from 'antd/es/table';
 import React, { Component, Fragment } from 'react';
 import { SorterResult } from 'antd/lib/table';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
@@ -103,7 +104,10 @@ class StandardTable<T> extends Component<StandardTableProps<T>, StandardTableSta
       ? {
           showSizeChanger: true,
           showQuickJumper: true,
-          showTotal: (total: number) => `共 ${total} 条`,
+          showTotal: (total: number) =>
+            `${formatMessage({ id: 'pagination.total' })} ${total} ${formatMessage({
+              id: 'pagination.article',
+            })}`,
           ...pagination,
         }
       : false;

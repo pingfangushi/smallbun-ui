@@ -162,7 +162,7 @@ export default (): React.ReactNode => (
       <Preview>
         <span role="img" aria-label="">
           很喜欢阿里文化中的一句话：一群有情有义之人一起做一件有意义之事,恳请的希望有兴趣的同学能够参与到
-          SmallBun 建设中来，让我们共同完善它，让我们共同成长，帮助更多开发者，解决更多的问题💪。
+          smallbun 建设中来，让我们共同完善它，让我们共同成长，帮助更多开发者，解决更多的问题💪。
         </span>
       </Preview>
     </Card>

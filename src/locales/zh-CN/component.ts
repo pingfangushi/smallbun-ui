@@ -21,4 +21,6 @@ export default {
   'import.menu.name': '导入',
   'export.menu.title': '导出',
   'export.menu.name': '导出',
+  'pagination.total': '共',
+  'pagination.article': '条',
 };
