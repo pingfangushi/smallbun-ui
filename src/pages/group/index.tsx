@@ -234,7 +234,6 @@ class Index extends React.Component<TableListProps, TableListState> {
         }
         // 错误提示
         notification.error({
-          placement: 'bottomRight',
           message: '提示',
           description: response.message,
         });
